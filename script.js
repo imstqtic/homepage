@@ -25,7 +25,8 @@ window.addEventListener("load", () => {
 window.addEventListener("load", () => {
     const last = localStorage.getItem("last-visited");
     if (last) {
-        const link = document.querySelector(`a[href="${last}"]`);
+        // Ensure we only highlight links within the main sections, not the favorite bar itself
+        const link = document.querySelector(`section#link-sections a[href="${last}"], section#favorites-section a[href="${last}"]`);
         if (link) {
             link.style.border = "2px dashed var(--accent)"; // Assuming you have --accent defined in your CSS
             link.title += " (Last visited)";
@@ -87,7 +88,7 @@ function renderFavorites() {
         const a = document.createElement('a'); // Create the <a> element
         a.href = fav.href; // Set its href attribute
         a.textContent = fav.text; // Set its display text (NO COUNT HERE)
-        
+
         // Add a class for identifying favorite items, useful for click-to-remove
         a.classList.add('favorite-item-link'); 
         
@@ -107,10 +108,11 @@ function renderFavorites() {
 window.addEventListener('load', renderFavorites);
 
 
-// Add click listener to all general links to handle last visited and update/add to favorites count
-document.querySelectorAll("section a").forEach(link => { // Target links within sections only
+// Add click listener to all GENERAL links (NOT favorites bar links)
+// We use a more specific selector to avoid conflicts with the favoritesList listener.
+document.querySelectorAll("section#link-sections a").forEach(link => { 
     link.addEventListener("click", (event) => {
-        // Don't prevent default navigation here, let the link navigate normally.
+        // Do NOT prevent default here, let the link navigate normally.
         
         localStorage.setItem("last-visited", link.href);
 
@@ -147,7 +149,8 @@ favoritesList.addEventListener('click', (event) => {
     const clickedLink = event.target.closest('.favorite-item-link'); // Find the clicked <a> with the class
     
     if (clickedLink) {
-        // Prevent default navigation for the clicked favorite item, as we're handling its click
+        // PREVENT default navigation ONLY for clicks on favorite items,
+        // so the confirmation dialog can appear.
         event.preventDefault(); 
 
         const linkHref = clickedLink.href;
@@ -164,7 +167,7 @@ favoritesList.addEventListener('click', (event) => {
             renderFavorites(); // Re-render the list
         } else {
             // If user cancels removal, navigate to the link normally
-            window.location.href = linkHref;
+            window.location.href = linkHref; // This is crucial for navigating if 'cancel' is pressed
         }
     }
 });
