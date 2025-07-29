@@ -33,42 +33,47 @@ window.addEventListener("load", () => {
     }
 });
 
-// --- FAVORITES BAR LOGIC (FINAL REFINEMENT) ---
+// --- FAVORITES BAR LOGIC ---
 
 const favoritesList = document.getElementById('favorites-list');
 const FAVORITES_LIMIT = 5; // Set the limit to 5
+
+/**
+ * Ensures a favorite object has the correct structure (href, text, count).
+ * Handles old string-only formats or missing properties.
+ * @param {string|object} favData The raw favorite data from localStorage.
+ * @returns {object} A well-formed favorite object.
+ */
+function cleanFavoriteData(favData) {
+    if (typeof favData === 'string') {
+        // Handle very old format (just URL string)
+        const originalLink = document.querySelector(`a[href="${favData}"]`);
+        return {
+            href: favData,
+            text: originalLink ? originalLink.textContent : favData, // Use link text or fallback to URL
+            count: 1 // Assign a default count for old links
+        };
+    } else if (typeof favData === 'object' && favData !== null) {
+        // Handle object format, ensure properties exist and are correct types
+        const cleanedFav = {
+            href: favData.href || '', // Ensure href exists
+            text: favData.text || favData.href || '', // Ensure text exists, fallback to href
+            count: (typeof favData.count === 'number' && !isNaN(favData.count)) ? favData.count : 1 // Ensure count is a valid number
+        };
+        return cleanedFav;
+    }
+    // Fallback for unexpected data format
+    return { href: '', text: 'Invalid Link', count: 1 };
+}
 
 // Function to render the favorites list
 function renderFavorites() {
     // Clear existing list items
     favoritesList.innerHTML = '';
 
-    // Get favorites from localStorage, default to empty array if none
+    // Get favorites from localStorage, and clean/normalize the data immediately
     let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-
-    // --- Data Migration/Cleaning for Old Favorites ---
-    // Ensure all favorites have 'href', 'text', and 'count' properties
-    favorites = favorites.map(fav => {
-        // If it's just a string (old format), convert it
-        if (typeof fav === 'string') {
-            // Try to find the original link element to get its text content
-            const originalLink = document.querySelector(`a[href="${fav}"]`);
-            return {
-                href: fav,
-                text: originalLink ? originalLink.textContent : fav, // Use link text or fallback to URL
-                count: 1 // Assign a default count for old links
-            };
-        }
-        // Ensure count is a number, default to 1 if missing/invalid
-        if (typeof fav.count !== 'number' || isNaN(fav.count)) {
-            fav.count = 1;
-        }
-        // Ensure text exists, fallback to href if missing
-        if (!fav.text) {
-             fav.text = fav.href;
-        }
-        return fav;
-    });
+    favorites = favorites.map(cleanFavoriteData);
 
     // Sort favorites by count in descending order
     favorites.sort((a, b) => b.count - a.count);
@@ -83,15 +88,15 @@ function renderFavorites() {
         a.href = fav.href; // Set its href attribute
         a.textContent = fav.text; // Set its display text (NO COUNT HERE)
         
-        // Optional: Add a title with the count for debugging/info on hover (still hidden)
+        // Optional: Add a title with the count for debugging/info on hover
         a.title = `Clicked ${fav.count} times`; 
         
         li.appendChild(a); // Append the <a> to the <li>
         favoritesList.appendChild(li); // Append the <li> (which now contains an <a>) to the ul
     });
 
-    // Save the potentially cleaned/updated favorites back to localStorage
-    // This helps clean up old formats over time.
+    // Save the potentially cleaned/updated favorites back to localStorage after rendering.
+    // This helps clean up old formats over time as users visit the page.
     localStorage.setItem('favorites', JSON.stringify(favorites));
 }
 
@@ -106,28 +111,9 @@ document.querySelectorAll("a").forEach(link => {
         
         localStorage.setItem("last-visited", link.href);
 
+        // Get favorites, and clean/normalize the data *before* processing
         let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-
-        // --- Data Cleaning/Migration for new click ---
-        // Ensure all favorites have 'href', 'text', and 'count' properties
-        favorites = favorites.map(fav => {
-            if (typeof fav === 'string') {
-                const originalLink = document.querySelector(`a[href="${fav}"]`);
-                return {
-                    href: fav,
-                    text: originalLink ? originalLink.textContent : fav,
-                    count: 1
-                };
-            }
-            if (typeof fav.count !== 'number' || isNaN(fav.count)) {
-                fav.count = 1;
-            }
-             if (!fav.text) {
-                 fav.text = fav.href;
-            }
-            return fav;
-        });
-        // --- End Data Cleaning/Migration ---
+        favorites = favorites.map(cleanFavoriteData);
 
         // Find if the clicked link already exists in favorites
         const existingFavoriteIndex = favorites.findIndex(fav => fav.href === link.href);
