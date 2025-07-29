@@ -88,6 +88,9 @@ function renderFavorites() {
         a.href = fav.href; // Set its href attribute
         a.textContent = fav.text; // Set its display text (NO COUNT HERE)
         
+        // Add a class for identifying favorite items, useful for click-to-remove
+        a.classList.add('favorite-item-link'); 
+        
         // Optional: Add a title with the count for debugging/info on hover
         a.title = `Clicked ${fav.count} times`; 
         
@@ -104,10 +107,10 @@ function renderFavorites() {
 window.addEventListener('load', renderFavorites);
 
 
-// Add click listener to all links to handle last visited and update/add to favorites
-document.querySelectorAll("a").forEach(link => {
+// Add click listener to all general links to handle last visited and update/add to favorites count
+document.querySelectorAll("section a").forEach(link => { // Target links within sections only
     link.addEventListener("click", (event) => {
-        // No event.preventDefault() here, let the link navigate normally.
+        // Don't prevent default navigation here, let the link navigate normally.
         
         localStorage.setItem("last-visited", link.href);
 
@@ -138,6 +141,34 @@ document.querySelectorAll("a").forEach(link => {
         renderFavorites();
     });
 });
+
+// Add click listener to the favorites list itself for removal functionality
+favoritesList.addEventListener('click', (event) => {
+    const clickedLink = event.target.closest('.favorite-item-link'); // Find the clicked <a> with the class
+    
+    if (clickedLink) {
+        // Prevent default navigation for the clicked favorite item, as we're handling its click
+        event.preventDefault(); 
+
+        const linkHref = clickedLink.href;
+        const linkText = clickedLink.textContent;
+
+        if (confirm(`Do you want to remove "${linkText}" from your favorites?`)) {
+            let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+            favorites = favorites.map(cleanFavoriteData); // Clean data before filtering
+
+            // Filter out the item to be removed
+            favorites = favorites.filter(fav => fav.href !== linkHref);
+
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            renderFavorites(); // Re-render the list
+        } else {
+            // If user cancels removal, navigate to the link normally
+            window.location.href = linkHref;
+        }
+    }
+});
+
 
 // --- END FAVORITES BAR LOGIC ---
 
