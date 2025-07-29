@@ -10,7 +10,7 @@ function updateClock() {
     date.textContent = now.toLocaleDateString('en-US', dateOptions);
 }
 setInterval(updateClock, 1000);
-updateClock();
+updateClock(); // Call immediately to avoid initial blank display
 
 // Restore scroll position
 window.addEventListener("beforeunload", () => {
@@ -27,16 +27,16 @@ window.addEventListener("load", () => {
     if (last) {
         const link = document.querySelector(`a[href="${last}"]`);
         if (link) {
-            link.style.border = "2px dashed var(--accent)";
+            link.style.border = "2px dashed var(--accent)"; // Assuming you have --accent defined in your CSS
             link.title += " (Last visited)";
         }
     }
 });
 
-// --- FAVORITES BAR LOGIC (MODIFIED) ---
+// --- FAVORITES BAR LOGIC (MODIFIED AGAIN) ---
 
 const favoritesList = document.getElementById('favorites-list');
-const FAVORITES_LIMIT = 10; // Define how many "most used" links to show
+const FAVORITES_LIMIT = 5; // Set the limit to 5 as requested
 
 // Function to render the favorites list
 function renderFavorites() {
@@ -55,11 +55,15 @@ function renderFavorites() {
     // Populate the list with the sorted and limited favorites
     topFavorites.forEach(fav => {
         const li = document.createElement('li');
-        const a = document.createElement('a');
-        a.href = fav.href;
-        a.textContent = `${fav.text} (${fav.count})`; // Display count for debugging/info
-        li.appendChild(a);
-        favoritesList.appendChild(li);
+        const a = document.createElement('a'); // Create the <a> element
+        a.href = fav.href; // Set its href attribute
+        a.textContent = fav.text; // Set its display text (NOT the count unless you want it)
+        
+        // Optional: Add a title with the count for debugging/info on hover
+        a.title = `Clicked ${fav.count} times`; 
+        
+        li.appendChild(a); // Append the <a> to the <li>
+        favoritesList.appendChild(li); // Append the <li> to the ul
     });
 }
 
@@ -86,7 +90,7 @@ document.querySelectorAll("a").forEach(link => {
             // If not exists, add as a new favorite with count 1
             const newFavorite = {
                 href: link.href,
-                text: link.textContent,
+                text: link.textContent, // Store the link's display text
                 count: 1 // Initialize count to 1
             };
             favorites.push(newFavorite);
@@ -105,9 +109,18 @@ document.querySelectorAll("a").forEach(link => {
 // Search filter
 document.getElementById('search').addEventListener('input', function () {
     const filter = this.value.toLowerCase();
+    // Select all <li> elements that are descendants of <section> and <ul> (i.e., your bookmark lists)
+    // This will filter both the main categories and the favorites list.
     document.querySelectorAll('section ul li').forEach(li => {
         const text = li.textContent.toLowerCase();
-        li.style.display = text.includes(filter) ? "" : "none";
+        // Check if the <a> tag inside the <li> contains the text
+        const aTag = li.querySelector('a');
+        if (aTag) { // Ensure there is an <a> tag
+             li.style.display = aTag.textContent.toLowerCase().includes(filter) ? "" : "none";
+        } else { // Fallback for any li without an <a>
+             li.style.display = text.includes(filter) ? "" : "none";
+        }
+       
     });
 });
 
