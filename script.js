@@ -33,10 +33,10 @@ window.addEventListener("load", () => {
     }
 });
 
-// --- FAVORITES BAR LOGIC (MODIFIED AGAIN) ---
+// --- FAVORITES BAR LOGIC (FINAL REFINEMENT) ---
 
 const favoritesList = document.getElementById('favorites-list');
-const FAVORITES_LIMIT = 5; // Set the limit to 5 as requested
+const FAVORITES_LIMIT = 5; // Set the limit to 5
 
 // Function to render the favorites list
 function renderFavorites() {
@@ -45,6 +45,30 @@ function renderFavorites() {
 
     // Get favorites from localStorage, default to empty array if none
     let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+
+    // --- Data Migration/Cleaning for Old Favorites ---
+    // Ensure all favorites have 'href', 'text', and 'count' properties
+    favorites = favorites.map(fav => {
+        // If it's just a string (old format), convert it
+        if (typeof fav === 'string') {
+            // Try to find the original link element to get its text content
+            const originalLink = document.querySelector(`a[href="${fav}"]`);
+            return {
+                href: fav,
+                text: originalLink ? originalLink.textContent : fav, // Use link text or fallback to URL
+                count: 1 // Assign a default count for old links
+            };
+        }
+        // Ensure count is a number, default to 1 if missing/invalid
+        if (typeof fav.count !== 'number' || isNaN(fav.count)) {
+            fav.count = 1;
+        }
+        // Ensure text exists, fallback to href if missing
+        if (!fav.text) {
+             fav.text = fav.href;
+        }
+        return fav;
+    });
 
     // Sort favorites by count in descending order
     favorites.sort((a, b) => b.count - a.count);
@@ -57,14 +81,18 @@ function renderFavorites() {
         const li = document.createElement('li');
         const a = document.createElement('a'); // Create the <a> element
         a.href = fav.href; // Set its href attribute
-        a.textContent = fav.text; // Set its display text (NOT the count unless you want it)
+        a.textContent = fav.text; // Set its display text (NO COUNT HERE)
         
-        // Optional: Add a title with the count for debugging/info on hover
+        // Optional: Add a title with the count for debugging/info on hover (still hidden)
         a.title = `Clicked ${fav.count} times`; 
         
         li.appendChild(a); // Append the <a> to the <li>
-        favoritesList.appendChild(li); // Append the <li> to the ul
+        favoritesList.appendChild(li); // Append the <li> (which now contains an <a>) to the ul
     });
+
+    // Save the potentially cleaned/updated favorites back to localStorage
+    // This helps clean up old formats over time.
+    localStorage.setItem('favorites', JSON.stringify(favorites));
 }
 
 // Initial render of favorites on page load
@@ -79,6 +107,27 @@ document.querySelectorAll("a").forEach(link => {
         localStorage.setItem("last-visited", link.href);
 
         let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+
+        // --- Data Cleaning/Migration for new click ---
+        // Ensure all favorites have 'href', 'text', and 'count' properties
+        favorites = favorites.map(fav => {
+            if (typeof fav === 'string') {
+                const originalLink = document.querySelector(`a[href="${fav}"]`);
+                return {
+                    href: fav,
+                    text: originalLink ? originalLink.textContent : fav,
+                    count: 1
+                };
+            }
+            if (typeof fav.count !== 'number' || isNaN(fav.count)) {
+                fav.count = 1;
+            }
+             if (!fav.text) {
+                 fav.text = fav.href;
+            }
+            return fav;
+        });
+        // --- End Data Cleaning/Migration ---
 
         // Find if the clicked link already exists in favorites
         const existingFavoriteIndex = favorites.findIndex(fav => fav.href === link.href);
@@ -109,18 +158,17 @@ document.querySelectorAll("a").forEach(link => {
 // Search filter
 document.getElementById('search').addEventListener('input', function () {
     const filter = this.value.toLowerCase();
-    // Select all <li> elements that are descendants of <section> and <ul> (i.e., your bookmark lists)
-    // This will filter both the main categories and the favorites list.
+    // Select all <li> elements that are descendants of <section> and <ul>
     document.querySelectorAll('section ul li').forEach(li => {
-        const text = li.textContent.toLowerCase();
-        // Check if the <a> tag inside the <li> contains the text
-        const aTag = li.querySelector('a');
-        if (aTag) { // Ensure there is an <a> tag
-             li.style.display = aTag.textContent.toLowerCase().includes(filter) ? "" : "none";
-        } else { // Fallback for any li without an <a>
-             li.style.display = text.includes(filter) ? "" : "none";
+        const aTag = li.querySelector('a'); // Get the anchor tag within the list item
+        if (aTag) {
+            const text = aTag.textContent.toLowerCase(); // Use the text content of the anchor
+            li.style.display = text.includes(filter) ? "" : "none";
+        } else {
+            // Fallback for li elements that might not contain an <a> (though they should in this structure)
+            const text = li.textContent.toLowerCase();
+            li.style.display = text.includes(filter) ? "" : "none";
         }
-       
     });
 });
 
