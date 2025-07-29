@@ -3,29 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>dashboard</title> <link rel="stylesheet" href="style.css">
+    <title>dashboard</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
         <div class="header-content">
             <div id="greeting-container">
-                <span id="greeting-text"></span>, michael roman. </div>
+                <span id="greeting-text"></span>, michaël román.
+            </div>
             <div class="clock-date-container">
                 <div id="clock"></div>
                 <div id="date"></div>
             </div>
         </div>
         <div class="utility-widgets">
-            <div id="weather-widget" class="widget">
-                <div class="weather-header">
-                    <span id="weather-location">loading weather...</span>
-                </div>
-                <div class="weather-info">
-                    <img id="weather-icon" src="" alt="weather icon" style="display: none;">
-                    <span id="weather-temp"></span>
-                    <span id="weather-desc"></span>
-                </div>
-            </div>
             <div id="quote-widget" class="widget">
                 <p id="quote-text"></p>
                 <cite id="quote-author"></cite>
@@ -52,52 +44,43 @@
 
         <section id="link-sections" class="dashboard-section-grid">
             <details>
-                <summary>education platforms</summary>
-                <ul>
-                    <li><a href="https://www.coursera.org/">coursera</a></li>
-                    <li><a href="https://www.edx.org/">edx</a></li>
-                    <li><a href="https://www.khanacademy.org/">khan academy</a></li>
-                </ul>
-            </details>
-            <details>
                 <summary>mit ocw</summary>
                 <ul>
-                    <li><a href="https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/">eecs</a></li>
-                    <li><a href="https://ocw.mit.edu/courses/mathematics/">mathematics</a></li>
-                    <li><a href="https://ocw.mit.edu/courses/physics/">physics</a></li>
-                    <li><a href="https://ocw.mit.edu/courses/aeronautics-and-astronautics/16-07-dynamics-fall-2009/">mechanics</a></li>
-                    <li><a href="https://ocw.mit.edu/courses/mathematics/18-06-linear-algebra-spring-2010/">linear algebra</a></li>
-                    <li><a href="https://ocw.mit.edu/courses/physics/8-02-electricity-and-magnetism-spring-2002/">e/m</a></li>
-                    <li><a href="https://ocw.mit.edu/courses/mathematics/18-02-multivariable-calculus-fall-2007/">multivariate calc</a></li>
-                    <li><a href="https://ocw.mit.edu/courses/mathematics/18-01-single-variable-calculus-fall-2007/">single variable calc</a></li>
-                    <li><a href="https://ocw.mit.edu/courses/biology/">biology</a></li>
-                    <li><a href="https://ocw.mit.edu/courses/chemistry/">chemistry</a></li>
+                    <li><a href="https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/">single variable calc</a></li>
+                    <li><a href="https://ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/">linear algebra</a></li>
+                    <li><a href="https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/">multivariable calc</a></li>
+                    <li><a href="https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/">mechanics</a></li>
+                    <li><a href="https://opencw.aprende.org/courses/physics/8-02-electricity-and-magnetism-spring-2002/">e&m</a></li>
+                    <li><a href="https://ocw.mit.edu/courses/7-01sc-fundamentals-of-biology-fall-2011/">biology</a></li>
+                    <li><a href="https://ocw.mit.edu/courses/5-111sc-principles-of-chemical-science-fall-2014/">chemistry</a></li>
                 </ul>
             </details>
+
             <details>
-                <summary>language learning</summary>
+                <summary>language resources</summary>
                 <ul>
-                    <li><a href="https://www.duolingo.com/">duolingo</a></li>
-                    <li><a href="https://www.memrise.com/">memrise</a></li>
-                    <li><a href="https://www.italki.com/">italki</a></li>
+                    <li><a href="https://openbooks.lib.msu.edu/urdu/">urdu - msu</a></li>
+                    <li><a href="https://wp.nyu.edu/virtualurdu/">urdu - nyu</a></li>
+                    <li><a href="https://openbooks.lib.msu.edu/arb101/">arabic - msu</a></li>
+                    <li><a href="https://www.laits.utexas.edu/fi/toc/00/">french - utexas</a></li>
+                    <li><a href="https://open.muhlenberg.pub/italiano-elementare-1/">italian - muhlenberg</a></li>
+                    <li><a href="https://wisc.pb.unizin.org/portuguese/">portuguese - uwisc</a></li>
                 </ul>
             </details>
+
             <details>
-                <summary>books/films</summary>
+                <summary>knowledge tools</summary>
                 <ul>
-                    <li><a href="https://www.goodreads.com/">goodreads</a></li>
-                    <li><a href="https://letterboxd.com/">letterboxd</a></li>
-                    <li><a href="https://www.imdb.com/">imdb</a></li>
-                    <li><a href="https://archive.org/">internet archive</a></li>
+                    <li><a href="https://www.qbreader.org/">qbreader</a></li>
+                    <li><a href="https://www.naqt.com/you-gotta-know/">you gotta know!</a></li>
                 </ul>
             </details>
+
             <details>
                 <summary>utilities</summary>
                 <ul>
-                    <li><a href="https://chat.openai.com/">chatgpt</a></li>
-                    <li><a href="https://bard.google.com/">gemini (formerly bard)</a></li>
-                    <li><a href="https://calendar.google.com/">google calendar</a></li>
-                    <li><a href="https://mail.google.com/">gmail</a></li>
+                    <li><a href="https://voice.google.com/">google voice</a></li>
+                    <li><a href="https://www.wikipedia.org/">wikipedia</a></li>
                 </ul>
             </details>
         </section>
@@ -115,7 +98,7 @@
     </main>
 
     <footer>
-        <p>© 2024 michael roman. all rights reserved.</p>
+        <p>© 2024 michaël román. all rights reserved.</p>
     </footer>
 
     <script src="script.js"></script>

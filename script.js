@@ -41,6 +41,7 @@ window.addEventListener("load", () => {
 window.addEventListener("load", () => {
     const last = localStorage.getItem("last-visited");
     if (last) {
+        // Target links in link-sections and favorites-section
         const link = document.querySelector(`section#link-sections a[href="${last}"], section#favorites-section a[href="${last}"]`);
         if (link) {
             link.style.border = "2px dashed var(--accent)";
@@ -48,50 +49,6 @@ window.addEventListener("load", () => {
         }
     }
 });
-
-// --- Weather Widget Logic ---
-// IMPORTANT: Replace 'YOUR_ACTUAL_API_KEY' with your actual OpenWeatherMap API key
-// Get one for free here: https://openweathermap.org/api
-const WEATHER_API_KEY = '64839d0f54567bf810b73b483ecfad9e'; // <--- !!! REPLACE THIS WITH YOUR REAL KEY !!!
-const WEATHER_CITY_LAT = 40.6593; // Latitude for Valley Stream, NY
-const WEATHER_CITY_LON = -73.7088; // Longitude for Valley Stream, NY
-const WEATHER_UNITS = 'imperial'; // 'metric' for Celsius, 'imperial' for Fahrenheit
-
-async function fetchWeatherData() {
-    if (WEATHER_API_KEY === 'YOUR_ACTUAL_API_KEY' || !WEATHER_API_KEY) {
-        document.getElementById('weather-location').textContent = 'api key missing!';
-        document.getElementById('weather-location').style.color = 'red';
-        console.error('openweathermap api key is not set. please get one from openweathermap.org and replace your_actual_api_key in script.js');
-        return;
-    }
-    
-    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${WEATHER_CITY_LAT}&lon=${WEATHER_CITY_LON}&units=${WEATHER_UNITS}&appid=${WEATHER_API_KEY}`;
-    
-    try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error(`weather data fetch failed: ${response.statusText}`);
-        }
-        const data = await response.json();
-        
-        document.getElementById('weather-location').textContent = `valley stream`; // Explicitly set to Valley Stream, NY
-        document.getElementById('weather-temp').textContent = `${Math.round(data.main.temp)}°${WEATHER_UNITS === 'imperial' ? 'f' : 'c'}`; // Lowercase units
-        document.getElementById('weather-desc').textContent = data.weather[0].description;
-        
-        const weatherIcon = document.getElementById('weather-icon');
-        weatherIcon.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}.png`;
-        weatherIcon.style.display = 'block';
-        weatherIcon.alt = data.weather[0].description;
-
-    } catch (error) {
-        console.error('error fetching weather data:', error);
-        document.getElementById('weather-location').textContent = 'failed to load weather.';
-        document.getElementById('weather-location').style.color = 'red';
-        document.getElementById('weather-icon').style.display = 'none';
-    }
-}
-fetchWeatherData();
-setInterval(fetchWeatherData, 600000);
 
 // --- Dynamic Quotes Logic ---
 const quotes = [
@@ -120,7 +77,7 @@ function displayRandomQuote() {
     quoteText.textContent = `"${randomQuote.text}"`;
     quoteAuthor.textContent = `- ${randomQuote.author}`;
 }
-displayRandomQuote();
+displayRandomQuote(); // Display a quote on load
 
 // --- To-Do List Logic ---
 const todoInput = document.getElementById('todo-input');
@@ -195,10 +152,11 @@ const FAVORITES_LIMIT = 5;
  */
 function cleanFavoriteData(favData) {
     if (typeof favData === 'string') {
+        // Try to find the original link's text content
         const originalLink = document.querySelector(`a[href="${favData}"]`);
         return {
             href: favData,
-            text: originalLink ? originalLink.textContent : favData,
+            text: originalLink ? originalLink.textContent : favData, // Use original text or href as fallback
             count: 1
         };
     } else if (typeof favData === 'object' && favData !== null) {
@@ -215,37 +173,48 @@ function cleanFavoriteData(favData) {
 function renderFavorites() {
     favoritesList.innerHTML = '';
     let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    favorites = favorites.map(cleanFavoriteData);
-    favorites.sort((a, b) => b.count - a.count);
-    const topFavorites = favorites.slice(0, FAVORITES_LIMIT);
+    favorites = favorites.map(cleanFavoriteData); // Clean any old/malformed data
+    favorites.sort((a, b) => b.count - a.count); // Sort by count descending
+    const topFavorites = favorites.slice(0, FAVORITES_LIMIT); // Get top N favorites
 
-    topFavorites.forEach(fav => {
-        const li = document.createElement('li');
-        const a = document.createElement('a');
-        a.href = fav.href;
-        a.textContent = fav.text;
-        a.classList.add('favorite-item-link'); 
-        a.title = `clicked ${fav.count} times`; 
-        li.appendChild(a);
-        favoritesList.appendChild(li);
-    });
-    localStorage.setItem('favorites', JSON.stringify(favorites));
+    if (topFavorites.length === 0) {
+        favoritesList.innerHTML = '<li>no favorites yet. click a link to add it!</li>';
+        favoritesList.style.color = 'color-mix(in srgb, var(--text-color) 70%, transparent)';
+        favoritesList.style.fontSize = '0.9em';
+        favoritesList.style.textAlign = 'center';
+    } else {
+        topFavorites.forEach(fav => {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = fav.href;
+            a.textContent = fav.text;
+            a.classList.add('favorite-item-link'); 
+            a.title = `clicked ${fav.count} times`; 
+            li.appendChild(a);
+            favoritesList.appendChild(li);
+        });
+    }
+    localStorage.setItem('favorites', JSON.stringify(favorites)); // Save cleaned/sorted list
 }
 
-// Initial render of favorites on page load (already called above in window.onload)
-window.addEventListener('load', renderFavorites); // Ensuring it runs even if order changes
+// Initial render of favorites on page load
+window.addEventListener('load', renderFavorites); 
 
 // Add click listener to all GENERAL links (NOT favorites bar links)
+// This targets links within `section#link-sections`
 document.querySelectorAll("section#link-sections a").forEach(link => { 
     link.addEventListener("click", (event) => {
-        localStorage.setItem("last-visited", link.href);
+        localStorage.setItem("last-visited", link.href); // Store last visited link
+
         let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-        favorites = favorites.map(cleanFavoriteData);
+        favorites = favorites.map(cleanFavoriteData); // Ensure favorites data is clean
+
         const existingFavoriteIndex = favorites.findIndex(fav => fav.href === link.href);
 
         if (existingFavoriteIndex > -1) {
-            favorites[existingFavoriteIndex].count++;
+            favorites[existingFavoriteIndex].count++; // Increment count if already exists
         } else {
+            // Add new favorite with count 1
             const newFavorite = {
                 href: link.href,
                 text: link.textContent,
@@ -254,28 +223,30 @@ document.querySelectorAll("section#link-sections a").forEach(link => {
             favorites.push(newFavorite);
         }
         localStorage.setItem('favorites', JSON.stringify(favorites));
-        renderFavorites();
+        renderFavorites(); // Re-render favorites to show updated counts/new favorites
     });
 });
 
 // Add click listener to the favorites list itself for removal functionality
+// This targets the specific '.favorite-item-link' class within the favorites list
 favoritesList.addEventListener('click', (event) => {
     const clickedLink = event.target.closest('.favorite-item-link'); 
     if (clickedLink) {
-        event.preventDefault(); 
+        event.preventDefault(); // Prevent default navigation initially
         const linkHref = clickedLink.href;
         const linkText = clickedLink.textContent;
 
         if (confirm(`do you want to remove "${linkText}" from your favorites?`)) { // Lowercase confirmation
             let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-            favorites = favorites.filter(fav => fav.href !== linkHref);
+            favorites = favorites.filter(fav => fav.href !== linkHref); // Filter out the removed link
             localStorage.setItem('favorites', JSON.stringify(favorites));
-            renderFavorites();
+            renderFavorites(); // Re-render favorites
         } else {
-            window.location.href = linkHref;
+            window.location.href = linkHref; // If not confirmed, navigate to the link
         }
     }
 });
+
 
 // --- Search Filter Logic ---
 const searchInput = document.getElementById('search');
@@ -284,12 +255,14 @@ const clearSearchButton = document.getElementById('clear-search');
 searchInput.addEventListener('input', function () {
     const filter = this.value.toLowerCase();
     
+    // Show/hide clear button based on input content
     if (this.value.length > 0) {
         clearSearchButton.style.display = 'block';
     } else {
         clearSearchButton.style.display = 'none';
     }
 
+    // Filter <details> sections in #link-sections
     const linkSectionsDetails = document.querySelectorAll('section#link-sections details');
     linkSectionsDetails.forEach(details => {
         let sectionHasMatches = false;
@@ -300,38 +273,32 @@ searchInput.addEventListener('input', function () {
             if (aTag) {
                 const text = aTag.textContent.toLowerCase();
                 if (text.includes(filter)) {
-                    li.style.display = "";
+                    li.style.display = ""; // Show the list item
                     sectionHasMatches = true;
                 } else {
-                    li.style.display = "none";
-                }
-            } else { // Fallback for direct text in li, though unlikely with your structure
-                const text = li.textContent.toLowerCase();
-                if (text.includes(filter)) {
-                    li.style.display = "";
-                    sectionHasMatches = true;
-                } else {
-                    li.style.display = "none";
+                    li.style.display = "none"; // Hide the list item
                 }
             }
         });
 
+        // Toggle visibility of the <details> section itself
         if (filter.length > 0) {
             if (!sectionHasMatches) {
-                details.style.display = "none";
+                details.style.display = "none"; // Hide section if no matches
             } else {
-                details.style.display = "";
+                details.style.display = ""; // Show section
                 details.open = true; // Automatically open section if it has matches
             }
         } else {
-            details.style.display = "";
+            details.style.display = ""; // Show section if search is empty
             // Restore details state based on localStorage when search is cleared
             const detailId = details.querySelector('summary').textContent.trim().replace(/\s+/g, '-').toLowerCase(); 
             const savedState = localStorage.getItem(`details-state-${detailId}`);
-            details.open = (savedState === 'open'); // Default to closed if no state or 'closed'
+            details.open = (savedState === 'open'); // Restore saved state
         }
     });
 
+    // Handle #favorites-section separately for search
     const favoritesSection = document.getElementById('favorites-section');
     if (favoritesSection) {
         let favoritesSectionHasMatches = false;
@@ -341,14 +308,6 @@ searchInput.addEventListener('input', function () {
             const aTag = li.querySelector('a');
             if (aTag) {
                 const text = aTag.textContent.toLowerCase();
-                if (text.includes(filter)) {
-                    li.style.display = "";
-                    favoritesSectionHasMatches = true;
-                } else {
-                    li.style.display = "none";
-                }
-            } else {
-                const text = li.textContent.toLowerCase();
                 if (text.includes(filter)) {
                     li.style.display = "";
                     favoritesSectionHasMatches = true;
@@ -371,8 +330,8 @@ searchInput.addEventListener('input', function () {
 });
 
 clearSearchButton.addEventListener('click', function() {
-    searchInput.value = '';
-    searchInput.dispatchEvent(new Event('input'));
+    searchInput.value = ''; // Clear the input
+    searchInput.dispatchEvent(new Event('input')); // Manually trigger the input event to reset filter and display
 });
 
 
@@ -383,6 +342,7 @@ modeToggle.addEventListener('click', () => {
     localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
 });
 
+// Apply dark mode on load based on saved preference
 window.addEventListener('load', () => {
     if (localStorage.getItem('theme') === 'dark') {
         document.body.classList.add('dark-mode');
@@ -391,22 +351,26 @@ window.addEventListener('load', () => {
 
 // --- Remember details section open/closed state ---
 document.querySelectorAll('details').forEach(details => {
+    // Create a unique ID for each details element based on its summary text
     const detailId = details.querySelector('summary').textContent.trim().replace(/\s+/g, '-').toLowerCase(); 
     
+    // Load state on page load
     const savedState = localStorage.getItem(`details-state-${detailId}`);
     if (savedState === 'open') {
         details.open = true;
     } else if (savedState === 'closed') {
         details.open = false;
     } else {
-        // Default behavior: Favorites open, others closed if no state
+        // Default behavior if no saved state, ensure favorites are open by default
         if (details.closest('#favorites-section')) {
             details.open = true;
         } else {
+            // For other sections, default to closed if no state saved
             details.open = false;
         }
     }
 
+    // Save state on toggle
     details.addEventListener('toggle', () => {
         const currentState = details.open ? 'open' : 'closed';
         localStorage.setItem(`details-state-${detailId}`, currentState);

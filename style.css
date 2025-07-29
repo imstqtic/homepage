@@ -108,26 +108,6 @@ header {
     font-size: 0.85em; /* Smaller font for widget content */
 }
 
-/* Weather Widget Styles */
-#weather-widget .weather-header {
-    font-size: 1em; /* Adjusted font size */
-    margin-bottom: 7px; /* Reduced margin */
-    display: flex; /* Ensure center alignment within header */
-    justify-content: center;
-    align-items: center;
-}
-
-#weather-widget #weather-icon {
-    width: 40px; /* Smaller icon */
-    height: 40px;
-}
-#weather-widget #weather-temp {
-    font-size: 1.8em; /* Proportionally smaller */
-}
-#weather-widget #weather-desc {
-    font-size: 0.85em; /* Proportionally smaller */
-}
-
 /* Quote Widget Styles */
 #quote-widget p {
     font-size: 0.95em; /* Adjusted font size */
@@ -166,8 +146,13 @@ main {
 
 #mode-toggle {
     padding: 7px 10px; /* Reduced padding */
+    background-color: var(--accent); /* Ensure accent color */
+    color: white; /* Text color on button */
+    border: none;
     border-radius: 5px; /* Slightly smaller border-radius */
+    cursor: pointer;
     font-size: 0.9em; /* Adjusted font size */
+    transition: background-color var(--transition-speed), transform 0.1s ease;
 }
 #mode-toggle:hover {
     background-color: color-mix(in srgb, var(--accent) 85%, black); /* Darken accent color on hover */
@@ -425,9 +410,7 @@ footer {
     #greeting-container {
         font-size: 1.2em;
     }
-    #weather-widget #weather-temp {
-        font-size: 1.6em;
-    }
+    /* Weather widget styles removed */
     #search, #mode-toggle, #todo-input, #add-todo-btn {
         font-size: 0.8em;
     }
