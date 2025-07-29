@@ -1,12 +1,17 @@
+/* Catppuccin Latte Lavender Color */
 :root {
     --bg-color: #f0f2f5;
     --text-color: #333;
     --card-bg: #fff;
     --border-color: #ddd;
-    --accent: #007bff;
+    --accent: #b7bdf8; /* Catppuccin Latte Lavender */
     --hover-bg: #e9ecef;
-    --box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    --transition-speed: 0.3s ease; /* For subtle transitions */
+    --box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08); /* Slightly smaller shadow */
+    --transition-speed: 0.25s ease; /* Slightly faster transition */
+
+    /* Fonts */
+    --main-font: "Hack Nerd Font Mono", monospace;
+    --title-font: serif; /* Generic serif font */
 }
 
 body.dark-mode {
@@ -14,48 +19,50 @@ body.dark-mode {
     --text-color: #e0e0e0;
     --card-bg: #3c3c3c;
     --border-color: #555;
-    --accent: #8ab4f8; /* A nice blue for dark mode */
+    --accent: #b7bdf8; /* Catppuccin Latte Lavender for dark mode too */
     --hover-bg: #4a4a4a;
-    --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+    --box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: var(--main-font); /* Main font for body text */
     background-color: var(--bg-color);
     color: var(--text-color);
     margin: 0;
-    padding: 20px;
+    padding: 15px; /* Slightly reduced padding */
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center content horizontally */
+    align-items: center;
     min-height: 100vh;
-    transition: background-color var(--transition-speed), color var(--transition-speed); /* Global transition */
-    scroll-behavior: smooth; /* For smooth scrolling */
+    transition: background-color var(--transition-speed), color var(--transition-speed);
+    scroll-behavior: smooth;
+    font-size: 0.95em; /* Slightly smaller base font size */
 }
 
 header {
     width: 100%;
-    max-width: 1200px;
-    margin-bottom: 30px;
+    max-width: 1100px; /* Slightly reduced max-width */
+    margin-bottom: 25px; /* Reduced margin */
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 15px; /* Reduced gap */
 }
 
 .header-content {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 8px; /* Reduced gap */
 }
 
 #greeting-container {
-    font-size: 2.2em;
+    font-size: 1.8em; /* Proportionally smaller */
     font-weight: 600;
     color: var(--accent);
     text-align: center;
     transition: color var(--transition-speed);
+    font-family: var(--title-font); /* Serif for greeting */
 }
 
 .clock-date-container {
@@ -65,24 +72,24 @@ header {
 }
 
 #clock {
-    font-size: 4em; /* Larger size for the time */
+    font-size: 3.5em; /* Proportionally smaller but still larger */
     font-weight: bold;
     color: var(--text-color);
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.08); /* Smaller shadow */
     transition: color var(--transition-speed), text-shadow var(--transition-speed);
 }
 
 #date {
-    font-size: 1.2em;
+    font-size: 1.05em; /* Proportionally smaller */
     color: var(--text-color);
-    margin-top: 5px;
+    margin-top: 4px; /* Reduced margin */
     transition: color var(--transition-speed);
 }
 
 .utility-widgets {
     display: flex;
-    flex-wrap: wrap; /* Allow widgets to wrap on smaller screens */
-    gap: 20px;
+    flex-wrap: wrap;
+    gap: 15px; /* Reduced gap */
     justify-content: center;
     width: 100%;
 }
@@ -90,142 +97,80 @@ header {
 .widget {
     background-color: var(--card-bg);
     border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 15px 20px;
+    border-radius: 10px; /* Slightly smaller border-radius */
+    padding: 12px 18px; /* Reduced padding */
     box-shadow: var(--box-shadow);
     transition: background-color var(--transition-speed), border-color var(--transition-speed), box-shadow var(--transition-speed);
-    flex: 1; /* Allow widgets to grow and shrink */
-    min-width: 250px; /* Minimum width before wrapping */
-    max-width: 400px;
+    flex: 1;
+    min-width: 220px; /* Adjusted min-width */
+    max-width: 350px; /* Adjusted max-width */
+    font-size: 0.9em; /* Smaller font for widget content */
 }
 
 /* Weather Widget Styles */
 #weather-widget .weather-header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.1em;
-    font-weight: 500;
-    margin-bottom: 10px;
-    color: var(--accent);
+    font-size: 1.05em; /* Adjusted font size */
+    margin-bottom: 8px; /* Reduced margin */
 }
 
-#weather-widget .weather-info {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-}
 #weather-widget #weather-icon {
-    width: 50px;
-    height: 50px;
-    object-fit: contain;
+    width: 45px; /* Smaller icon */
+    height: 45px;
 }
 #weather-widget #weather-temp {
-    font-size: 2.5em;
-    font-weight: bold;
+    font-size: 2em; /* Proportionally smaller */
 }
 #weather-widget #weather-desc {
-    font-size: 1em;
-    text-transform: capitalize;
+    font-size: 0.9em; /* Proportionally smaller */
 }
 
 /* Quote Widget Styles */
 #quote-widget p {
-    font-style: italic;
-    margin: 0 0 10px 0;
-    text-align: center;
-    font-size: 1.1em;
+    font-size: 1.0em; /* Adjusted font size */
+    margin: 0 0 8px 0; /* Reduced margin */
 }
 #quote-widget cite {
-    display: block;
-    text-align: right;
-    font-size: 0.9em;
-    color: var(--text-color);
+    font-size: 0.85em; /* Adjusted font size */
 }
 
 main {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1100px; /* Consistent with header */
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 25px; /* Reduced gap */
 }
 
 .controls-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 20px;
-    margin-bottom: 20px;
-}
-
-.search-container {
-    position: relative;
-    display: flex;
-    flex-grow: 1;
-    align-items: center;
+    gap: 15px; /* Reduced gap */
+    margin-bottom: 15px; /* Reduced margin */
 }
 
 #search {
-    flex-grow: 1;
-    padding: 10px 35px 10px 15px; /* Adjust padding for button */
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    background-color: var(--card-bg);
-    color: var(--text-color);
-    font-size: 1em;
-    transition: border-color var(--transition-speed), background-color var(--transition-speed), color var(--transition-speed);
-}
-#search::placeholder {
-    color: var(--text-color);
-    opacity: 0.7;
-}
-#search:focus {
-    outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+    padding: 8px 30px 8px 12px; /* Reduced padding */
+    border-radius: 6px; /* Slightly smaller border-radius */
+    font-size: 0.95em; /* Adjusted font size */
 }
 
 #clear-search {
-    position: absolute;
-    right: 5px;
-    background: none;
-    border: none;
-    font-size: 1.5em;
-    cursor: pointer;
-    color: var(--text-color);
-    padding: 0 5px;
-    line-height: 1;
-    transition: color var(--transition-speed);
-}
-#clear-search:hover {
-    color: var(--accent);
+    right: 3px; /* Adjusted position */
+    font-size: 1.3em; /* Adjusted font size */
 }
 
 #mode-toggle {
-    padding: 10px 15px;
-    background-color: var(--accent);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 1em;
-    transition: background-color var(--transition-speed), transform 0.1s ease;
-}
-#mode-toggle:hover {
-    background-color: darken(var(--accent), 10%); /* Placeholder for darker color, use specific color in production */
-    transform: translateY(-1px);
-}
-body.dark-mode #mode-toggle:hover {
-    background-color: lighten(var(--accent), 10%);
+    padding: 8px 12px; /* Reduced padding */
+    border-radius: 6px; /* Slightly smaller border-radius */
+    font-size: 0.95em; /* Adjusted font size */
 }
 
 .dashboard-section {
     background-color: var(--card-bg);
     border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 20px;
+    border-radius: 10px; /* Consistent border-radius */
+    padding: 18px; /* Reduced padding */
     box-shadow: var(--box-shadow);
     transition: background-color var(--transition-speed), border-color var(--transition-speed), box-shadow var(--transition-speed);
 }
@@ -233,10 +178,10 @@ body.dark-mode #mode-toggle:hover {
 /* Grid Layout for Link Sections */
 #link-sections.dashboard-section-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Responsive grid */
-    gap: 20px;
-    padding: 0; /* Remove padding from this section as children have padding */
-    background: none; /* No background for the grid container itself */
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Adjusted minmax for smaller size */
+    gap: 15px; /* Reduced gap */
+    padding: 0;
+    background: none;
     border: none;
     box-shadow: none;
 }
@@ -244,224 +189,141 @@ body.dark-mode #mode-toggle:hover {
 #link-sections details {
     background-color: var(--card-bg);
     border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 15px 20px;
+    border-radius: 10px; /* Consistent border-radius */
+    padding: 12px 18px; /* Reduced padding */
     box-shadow: var(--box-shadow);
     transition: background-color var(--transition-speed), border-color var(--transition-speed), box-shadow var(--transition-speed), display var(--transition-speed);
-    overflow: hidden; /* Important for hiding content during search */
+    overflow: hidden;
 }
-#link-sections details[open] {
-    box-shadow: var(--box-shadow), 0 0 0 3px rgba(0, 123, 255, 0.1);
-}
-
 
 details summary {
     font-weight: bold;
-    font-size: 1.2em;
+    font-size: 1.1em; /* Proportionally smaller */
     cursor: pointer;
-    padding: 5px 0;
-    list-style: none; /* Remove default arrow */
+    padding: 4px 0; /* Reduced padding */
+    list-style: none;
     position: relative;
     color: var(--accent);
     transition: color var(--transition-speed);
-}
-details summary:hover {
-    color: var(--text-color); /* Hover effect for summary */
-}
-
-/* Custom arrow for details summary */
-details summary::-webkit-details-marker {
-    display: none;
-}
-details summary::before {
-    content: '▶';
-    display: inline-block;
-    margin-right: 0.5em;
-    transition: transform var(--transition-speed);
-    color: var(--text-color);
-}
-details[open] summary::before {
-    content: '▼';
-    transform: rotate(90deg);
+    font-family: var(--title-font); /* Serif for summary titles */
 }
 
 ul {
-    list-style: none;
-    padding: 0;
-    margin-top: 15px;
+    margin-top: 12px; /* Reduced margin */
 }
 
 li {
-    margin-bottom: 8px;
-    transition: background-color var(--transition-speed), display var(--transition-speed); /* Transition display too */
-}
-li:last-child {
-    margin-bottom: 0;
+    margin-bottom: 6px; /* Reduced margin */
 }
 
 li a {
-    display: block;
-    padding: 8px 10px;
-    border-radius: 6px;
-    text-decoration: none;
-    color: var(--text-color);
-    background-color: var(--bg-color); /* Lighter background for links */
-    transition: background-color var(--transition-speed), color var(--transition-speed), border var(--transition-speed);
-    overflow: hidden; /* Ensures text overflow doesn't break border */
-    text-overflow: ellipsis; /* Add ellipsis for long links */
-    white-space: nowrap; /* Keep link text on one line */
-}
-
-li a:hover {
-    background-color: var(--hover-bg);
-    color: var(--accent);
+    padding: 7px 9px; /* Reduced padding */
+    border-radius: 5px; /* Smaller border-radius */
+    font-size: 0.9em; /* Proportionally smaller */
 }
 
 /* To-Do List Styles */
 #todo-section h2 {
-    text-align: center;
-    color: var(--accent);
-    margin-bottom: 20px;
+    font-family: var(--title-font); /* Serif for H2 title */
+    font-size: 1.5em; /* Proportionally smaller */
+    margin-bottom: 15px; /* Reduced margin */
 }
 
 .todo-input-container {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 15px;
+    gap: 8px; /* Reduced gap */
+    margin-bottom: 12px; /* Reduced margin */
 }
 
 #todo-input {
-    flex-grow: 1;
-    padding: 10px 15px;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    font-size: 1em;
-    transition: border-color var(--transition-speed), background-color var(--transition-speed), color var(--transition-speed);
-}
-#todo-input::placeholder {
-    color: var(--text-color);
-    opacity: 0.7;
-}
-#todo-input:focus {
-    outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+    padding: 8px 12px; /* Reduced padding */
+    border-radius: 6px; /* Smaller border-radius */
+    font-size: 0.95em; /* Proportionally smaller */
 }
 
 #add-todo-btn {
-    padding: 10px 15px;
-    background-color: var(--accent);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 1em;
-    transition: background-color var(--transition-speed), transform 0.1s ease;
-}
-#add-todo-btn:hover {
-    background-color: darken(var(--accent), 10%);
-    transform: translateY(-1px);
-}
-body.dark-mode #add-todo-btn:hover {
-    background-color: lighten(var(--accent), 10%);
+    padding: 8px 12px; /* Reduced padding */
+    border-radius: 6px; /* Smaller border-radius */
+    font-size: 0.95em; /* Proportionally smaller */
 }
 
 #todo-list li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 15px;
-    background-color: var(--bg-color);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    margin-bottom: 8px;
-    transition: background-color var(--transition-speed), border-color var(--transition-speed), box-shadow var(--transition-speed);
-}
-#todo-list li:hover {
-    box-shadow: var(--box-shadow);
-}
-#todo-list li.completed {
-    text-decoration: line-through;
-    color: var(--text-color);
-    opacity: 0.7;
-    background-color: var(--hover-bg);
-    border-color: var(--hover-bg);
-}
-
-.todo-text {
-    flex-grow: 1;
-    cursor: pointer;
-    padding-right: 10px;
+    padding: 8px 12px; /* Reduced padding */
+    border-radius: 6px; /* Smaller border-radius */
+    margin-bottom: 6px; /* Reduced margin */
+    font-size: 0.9em; /* Proportionally smaller */
 }
 
 .delete-todo-btn {
-    background: none;
-    border: none;
-    color: #dc3545; /* Red color for delete */
-    font-size: 1.2em;
-    cursor: pointer;
-    transition: color var(--transition-speed);
-}
-.delete-todo-btn:hover {
-    color: #c82333;
-    transform: scale(1.1);
+    font-size: 1.1em; /* Adjusted font size */
 }
 
 footer {
-    width: 100%;
-    max-width: 1200px;
-    text-align: center;
-    margin-top: 40px;
-    padding-top: 20px;
-    border-top: 1px solid var(--border-color);
-    font-size: 0.9em;
-    color: var(--text-color);
-    transition: border-color var(--transition-speed), color var(--transition-speed);
+    margin-top: 30px; /* Reduced margin */
+    padding-top: 15px; /* Reduced padding */
+    font-size: 0.85em; /* Proportionally smaller */
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
     body {
-        padding: 15px;
+        padding: 10px;
+        font-size: 0.9em;
     }
     header {
-        margin-bottom: 20px;
+        margin-bottom: 15px;
     }
     #clock {
-        font-size: 3em;
+        font-size: 2.8em;
     }
     #greeting-container {
-        font-size: 1.8em;
-    }
-    .utility-widgets {
-        flex-direction: column;
-        align-items: center;
+        font-size: 1.6em;
     }
     .widget {
-        min-width: unset;
-        width: 100%;
-        max-width: 450px; /* Limit width on smaller screens */
+        max-width: 100%;
+        padding: 10px 15px;
     }
     .controls-container {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 15px;
+        gap: 10px;
+        margin-bottom: 10px;
     }
     #link-sections.dashboard-section-grid {
-        grid-template-columns: 1fr; /* Single column on small screens */
+        grid-template-columns: 1fr;
+        gap: 10px;
     }
-    #search {
-        padding-right: 40px;
+    #link-sections details {
+        padding: 10px 15px;
+    }
+    details summary {
+        font-size: 1em;
+    }
+    li a {
+        font-size: 0.85em;
+    }
+    #todo-section h2 {
+        font-size: 1.4em;
+    }
+    #todo-input, #add-todo-btn, #todo-list li {
+        font-size: 0.9em;
+    }
+    footer {
+        font-size: 0.8em;
     }
 }
 
 @media (max-width: 480px) {
     #clock {
-        font-size: 2.5em;
+        font-size: 2.2em;
     }
     #greeting-container {
-        font-size: 1.5em;
+        font-size: 1.4em;
+    }
+    #weather-widget #weather-temp {
+        font-size: 1.8em;
+    }
+    #search, #mode-toggle, #todo-input, #add-todo-btn {
+        font-size: 0.85em;
+    }
+    .widget {
+        padding: 8px 12px;
     }
 }
