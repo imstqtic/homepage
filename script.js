@@ -17,11 +17,11 @@ function updateClockAndGreeting() {
     const hour = now.getHours();
     let greeting = "";
     if (hour < 12) {
-        greeting = "Good Morning";
+        greeting = "good morning";
     } else if (hour < 18) {
-        greeting = "Good Afternoon";
+        greeting = "good afternoon";
     } else {
-        greeting = "Good Evening";
+        greeting = "good evening";
     }
     greetingText.textContent = greeting;
 }
@@ -44,42 +44,38 @@ window.addEventListener("load", () => {
         const link = document.querySelector(`section#link-sections a[href="${last}"], section#favorites-section a[href="${last}"]`);
         if (link) {
             link.style.border = "2px dashed var(--accent)";
-            link.title += " (Last visited)";
+            link.title += " (last visited)"; // Lowercase title
         }
     }
 });
 
 // --- Weather Widget Logic ---
-// OpenWeatherMap API key for Valley Stream, NY
-// API key generated for Valley Stream, NY (using coordinates)
-// Source: OpenWeatherMap API - coordinates for Valley Stream, NY (40.6593, -73.7088)
-// This is a dummy key, you'll need to use your own! (See previous instructions for getting a key)
-// For actual use, generate your own key from openweathermap.org
-const WEATHER_API_KEY = 'c13c79c882255776d6c95c378939c085'; // Placeholder: Please get your own key from OpenWeatherMap
+// IMPORTANT: Replace 'YOUR_ACTUAL_API_KEY' with your actual OpenWeatherMap API key
+// Get one for free here: https://openweathermap.org/api
+const WEATHER_API_KEY = '64839d0f54567bf810b73b483ecfad9e'; // <--- !!! REPLACE THIS WITH YOUR REAL KEY !!!
 const WEATHER_CITY_LAT = 40.6593; // Latitude for Valley Stream, NY
 const WEATHER_CITY_LON = -73.7088; // Longitude for Valley Stream, NY
 const WEATHER_UNITS = 'imperial'; // 'metric' for Celsius, 'imperial' for Fahrenheit
 
 async function fetchWeatherData() {
-    if (WEATHER_API_KEY === 'c13c79c882255776d6c95c378939c085') { // Check for the placeholder key
-        document.getElementById('weather-location').textContent = 'API Key Missing/Invalid!';
+    if (WEATHER_API_KEY === 'YOUR_ACTUAL_API_KEY' || !WEATHER_API_KEY) {
+        document.getElementById('weather-location').textContent = 'api key missing!';
         document.getElementById('weather-location').style.color = 'red';
-        console.error('OpenWeatherMap API Key is not set or is a placeholder. Please get one from openweathermap.org and replace the key in script.js');
+        console.error('openweathermap api key is not set. please get one from openweathermap.org and replace your_actual_api_key in script.js');
         return;
     }
-    // Using coordinates for more precise location fetching
+    
     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${WEATHER_CITY_LAT}&lon=${WEATHER_CITY_LON}&units=${WEATHER_UNITS}&appid=${WEATHER_API_KEY}`;
     
     try {
         const response = await fetch(url);
         if (!response.ok) {
-            throw new Error(`Weather data fetch failed: ${response.statusText}`);
+            throw new Error(`weather data fetch failed: ${response.statusText}`);
         }
         const data = await response.json();
         
-        // Display city name (OpenWeatherMap might return a slightly different official name)
-        document.getElementById('weather-location').textContent = `Valley Stream`; // Hardcode or use data.name if preferred
-        document.getElementById('weather-temp').textContent = `${Math.round(data.main.temp)}°${WEATHER_UNITS === 'imperial' ? 'F' : 'C'}`;
+        document.getElementById('weather-location').textContent = `valley stream`; // Explicitly set to Valley Stream, NY
+        document.getElementById('weather-temp').textContent = `${Math.round(data.main.temp)}°${WEATHER_UNITS === 'imperial' ? 'f' : 'c'}`; // Lowercase units
         document.getElementById('weather-desc').textContent = data.weather[0].description;
         
         const weatherIcon = document.getElementById('weather-icon');
@@ -88,32 +84,32 @@ async function fetchWeatherData() {
         weatherIcon.alt = data.weather[0].description;
 
     } catch (error) {
-        console.error('Error fetching weather data:', error);
-        document.getElementById('weather-location').textContent = 'Failed to load weather.';
+        console.error('error fetching weather data:', error);
+        document.getElementById('weather-location').textContent = 'failed to load weather.';
         document.getElementById('weather-location').style.color = 'red';
         document.getElementById('weather-icon').style.display = 'none';
     }
 }
 fetchWeatherData();
-setInterval(fetchWeatherData, 600000); // Fetch every 10 minutes
+setInterval(fetchWeatherData, 600000);
 
 // --- Dynamic Quotes Logic ---
 const quotes = [
-    { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
-    { text: "Success is not final, failure is not fatal: it is the courage to continue that counts.", author: "Winston S. Churchill" },
-    { text: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" },
-    { text: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" },
-    { text: "The best way to predict the future is to create it.", author: "Peter Drucker" },
-    { text: "Strive not to be a success, but rather to be of value.", author: "Albert Einstein" },
-    { text: "The mind is everything. What you think you become.", author: "Buddha" },
-    { text: "It is during our darkest moments that we must focus to see the light.", author: "Aristotle" },
-    { text: "Keep your eyes on the stars, and your feet on the ground.", author: "Theodore Roosevelt" },
-    { text: "The secret of getting ahead is getting started.", author: "Mark Twain" },
-    { text: "The harder I work, the luckier I get.", author: "Samuel Goldwyn" },
-    { text: "If you want to live a happy life, tie it to a goal, not to people or things.", author: "Albert Einstein" },
-    { text: "The only person you are destined to become is the person you decide to be.", author: "Ralph Waldo Emerson" },
-    { text: "Do not wait for a leader; do it alone, person to person.", author: "Mother Teresa" },
-    { text: "The greatest glory in living lies not in never falling, but in rising every time we fall.", author: "Nelson Mandela" }
+    { text: "the only way to do great work is to love what you do.", author: "steve jobs" },
+    { text: "success is not final, failure is not fatal: it is the courage to continue that counts.", author: "winston s. churchill" },
+    { text: "believe you can and you're halfway there.", author: "theodore roosevelt" },
+    { text: "the future belongs to those who believe in the beauty of their dreams.", author: "eleanor roosevelt" },
+    { text: "the best way to predict the future is to create it.", author: "peter drucker" },
+    { text: "strive not to be a success, but rather to be of value.", author: "albert einstein" },
+    { text: "the mind is everything. what you think you become.", author: "buddha" },
+    { text: "it is during our darkest moments that we must focus to see the light.", author: "aristotle" },
+    { text: "keep your eyes on the stars, and your feet on the ground.", author: "theodore roosevelt" },
+    { text: "the secret of getting ahead is getting started.", author: "mark twain" },
+    { text: "the harder i work, the luckier i get.", author: "samuel goldwyn" },
+    { text: "if you want to live a happy life, tie it to a goal, not to people or things.", author: "albert einstein" },
+    { text: "the only person you are destined to become is the person you decide to be.", author: "ralph waldo emerson" },
+    { text: "do not wait for a leader; do it alone, person to person.", author: "mother teresa" },
+    { text: "the greatest glory in living lies not in never falling, but in rising every time we fall.", author: "nelson mandela" }
 ];
 
 function displayRandomQuote() {
@@ -134,11 +130,11 @@ const todoList = document.getElementById('todo-list');
 let todos = JSON.parse(localStorage.getItem('todos')) || [];
 
 function renderTodos() {
-    todoList.innerHTML = '';
+    todoList.innerHTML = ''; // Clear current list
     todos.forEach((todo, index) => {
         const li = document.createElement('li');
         li.classList.toggle('completed', todo.completed);
-        li.dataset.index = index;
+        li.dataset.index = index; // Store index for easy access
 
         const span = document.createElement('span');
         span.textContent = todo.text;
@@ -153,7 +149,7 @@ function renderTodos() {
         deleteBtn.textContent = '×';
         deleteBtn.classList.add('delete-todo-btn');
         deleteBtn.addEventListener('click', () => {
-            todos.splice(index, 1);
+            todos.splice(index, 1); // Remove item from array
             saveTodos();
             renderTodos();
         });
@@ -172,24 +168,31 @@ addTodoBtn.addEventListener('click', () => {
     const text = todoInput.value.trim();
     if (text) {
         todos.push({ text: text, completed: false });
-        todoInput.value = '';
+        todoInput.value = ''; // Clear input
         saveTodos();
         renderTodos();
     }
 });
 
+// Allow adding with Enter key
 todoInput.addEventListener('keypress', (event) => {
     if (event.key === 'Enter') {
         addTodoBtn.click();
     }
 });
 
-renderTodos();
+renderTodos(); // Initial render of todos on page load
 
 // --- Favorites Bar Logic ---
 const favoritesList = document.getElementById('favorites-list');
 const FAVORITES_LIMIT = 5;
 
+/**
+ * Ensures a favorite object has the correct structure (href, text, count).
+ * Handles old string-only formats or missing properties.
+ * @param {string|object} favData The raw favorite data from localStorage.
+ * @returns {object} A well-formed favorite object.
+ */
 function cleanFavoriteData(favData) {
     if (typeof favData === 'string') {
         const originalLink = document.querySelector(`a[href="${favData}"]`);
@@ -206,11 +209,206 @@ function cleanFavoriteData(favData) {
         };
         return cleanedFav;
     }
-    return { href: '', text: 'Invalid Link', count: 1 };
+    return { href: '', text: 'invalid link', count: 1 };
 }
 
 function renderFavorites() {
     favoritesList.innerHTML = '';
     let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
     favorites = favorites.map(cleanFavoriteData);
-    favorites.sort((a, b) => b.count - a.coun
+    favorites.sort((a, b) => b.count - a.count);
+    const topFavorites = favorites.slice(0, FAVORITES_LIMIT);
+
+    topFavorites.forEach(fav => {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = fav.href;
+        a.textContent = fav.text;
+        a.classList.add('favorite-item-link'); 
+        a.title = `clicked ${fav.count} times`; 
+        li.appendChild(a);
+        favoritesList.appendChild(li);
+    });
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+}
+
+// Initial render of favorites on page load (already called above in window.onload)
+window.addEventListener('load', renderFavorites); // Ensuring it runs even if order changes
+
+// Add click listener to all GENERAL links (NOT favorites bar links)
+document.querySelectorAll("section#link-sections a").forEach(link => { 
+    link.addEventListener("click", (event) => {
+        localStorage.setItem("last-visited", link.href);
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        favorites = favorites.map(cleanFavoriteData);
+        const existingFavoriteIndex = favorites.findIndex(fav => fav.href === link.href);
+
+        if (existingFavoriteIndex > -1) {
+            favorites[existingFavoriteIndex].count++;
+        } else {
+            const newFavorite = {
+                href: link.href,
+                text: link.textContent,
+                count: 1
+            };
+            favorites.push(newFavorite);
+        }
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+        renderFavorites();
+    });
+});
+
+// Add click listener to the favorites list itself for removal functionality
+favoritesList.addEventListener('click', (event) => {
+    const clickedLink = event.target.closest('.favorite-item-link'); 
+    if (clickedLink) {
+        event.preventDefault(); 
+        const linkHref = clickedLink.href;
+        const linkText = clickedLink.textContent;
+
+        if (confirm(`do you want to remove "${linkText}" from your favorites?`)) { // Lowercase confirmation
+            let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+            favorites = favorites.filter(fav => fav.href !== linkHref);
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            renderFavorites();
+        } else {
+            window.location.href = linkHref;
+        }
+    }
+});
+
+// --- Search Filter Logic ---
+const searchInput = document.getElementById('search');
+const clearSearchButton = document.getElementById('clear-search');
+
+searchInput.addEventListener('input', function () {
+    const filter = this.value.toLowerCase();
+    
+    if (this.value.length > 0) {
+        clearSearchButton.style.display = 'block';
+    } else {
+        clearSearchButton.style.display = 'none';
+    }
+
+    const linkSectionsDetails = document.querySelectorAll('section#link-sections details');
+    linkSectionsDetails.forEach(details => {
+        let sectionHasMatches = false;
+        const listItems = details.querySelectorAll('li');
+        
+        listItems.forEach(li => {
+            const aTag = li.querySelector('a');
+            if (aTag) {
+                const text = aTag.textContent.toLowerCase();
+                if (text.includes(filter)) {
+                    li.style.display = "";
+                    sectionHasMatches = true;
+                } else {
+                    li.style.display = "none";
+                }
+            } else { // Fallback for direct text in li, though unlikely with your structure
+                const text = li.textContent.toLowerCase();
+                if (text.includes(filter)) {
+                    li.style.display = "";
+                    sectionHasMatches = true;
+                } else {
+                    li.style.display = "none";
+                }
+            }
+        });
+
+        if (filter.length > 0) {
+            if (!sectionHasMatches) {
+                details.style.display = "none";
+            } else {
+                details.style.display = "";
+                details.open = true; // Automatically open section if it has matches
+            }
+        } else {
+            details.style.display = "";
+            // Restore details state based on localStorage when search is cleared
+            const detailId = details.querySelector('summary').textContent.trim().replace(/\s+/g, '-').toLowerCase(); 
+            const savedState = localStorage.getItem(`details-state-${detailId}`);
+            details.open = (savedState === 'open'); // Default to closed if no state or 'closed'
+        }
+    });
+
+    const favoritesSection = document.getElementById('favorites-section');
+    if (favoritesSection) {
+        let favoritesSectionHasMatches = false;
+        const favoritesListItems = favoritesSection.querySelectorAll('li');
+        
+        favoritesListItems.forEach(li => {
+            const aTag = li.querySelector('a');
+            if (aTag) {
+                const text = aTag.textContent.toLowerCase();
+                if (text.includes(filter)) {
+                    li.style.display = "";
+                    favoritesSectionHasMatches = true;
+                } else {
+                    li.style.display = "none";
+                }
+            } else {
+                const text = li.textContent.toLowerCase();
+                if (text.includes(filter)) {
+                    li.style.display = "";
+                    favoritesSectionHasMatches = true;
+                } else {
+                    li.style.display = "none";
+                }
+            }
+        });
+
+        if (filter.length > 0) {
+            if (!favoritesSectionHasMatches) {
+                favoritesSection.style.display = "none";
+            } else {
+                favoritesSection.style.display = "";
+            }
+        } else {
+            favoritesSection.style.display = "";
+        }
+    }
+});
+
+clearSearchButton.addEventListener('click', function() {
+    searchInput.value = '';
+    searchInput.dispatchEvent(new Event('input'));
+});
+
+
+// --- Dark Mode Toggle Logic ---
+const modeToggle = document.getElementById('mode-toggle');
+modeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+    localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+});
+
+window.addEventListener('load', () => {
+    if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+    }
+});
+
+// --- Remember details section open/closed state ---
+document.querySelectorAll('details').forEach(details => {
+    const detailId = details.querySelector('summary').textContent.trim().replace(/\s+/g, '-').toLowerCase(); 
+    
+    const savedState = localStorage.getItem(`details-state-${detailId}`);
+    if (savedState === 'open') {
+        details.open = true;
+    } else if (savedState === 'closed') {
+        details.open = false;
+    } else {
+        // Default behavior: Favorites open, others closed if no state
+        if (details.closest('#favorites-section')) {
+            details.open = true;
+        } else {
+            details.open = false;
+        }
+    }
+
+    details.addEventListener('toggle', () => {
+        const currentState = details.open ? 'open' : 'closed';
+        localStorage.setItem(`details-state-${detailId}`, currentState);
+    });
+});

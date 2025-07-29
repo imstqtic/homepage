@@ -6,12 +6,13 @@
     --border-color: #ddd;
     --accent: #b7bdf8; /* Catppuccin Latte Lavender */
     --hover-bg: #e9ecef;
-    --box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08); /* Slightly smaller shadow */
-    --transition-speed: 0.25s ease; /* Slightly faster transition */
+    --box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    --transition-speed: 0.25s ease;
 
     /* Fonts */
-    --main-font: "Hack Nerd Font Mono", monospace;
-    --title-font: serif; /* Generic serif font */
+    /* Ensure Hack Nerd Font Mono is installed on your system or linked via CDN */
+    --main-font: "Hack Nerd Font Mono", "Courier New", monospace;
+    --title-font: serif; /* Generic serif font for titles */
 }
 
 body.dark-mode {
@@ -29,35 +30,35 @@ body {
     background-color: var(--bg-color);
     color: var(--text-color);
     margin: 0;
-    padding: 15px; /* Slightly reduced padding */
+    padding: 12px; /* Reduced padding for more space */
     display: flex;
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
     transition: background-color var(--transition-speed), color var(--transition-speed);
     scroll-behavior: smooth;
-    font-size: 0.95em; /* Slightly smaller base font size */
+    font-size: 0.9em; /* Overall base font size reduced */
 }
 
 header {
     width: 100%;
-    max-width: 1100px; /* Slightly reduced max-width */
-    margin-bottom: 25px; /* Reduced margin */
+    max-width: 1000px; /* Reduced max-width */
+    margin-bottom: 20px; /* Reduced margin */
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px; /* Reduced gap */
+    gap: 12px; /* Reduced gap */
 }
 
 .header-content {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px; /* Reduced gap */
+    gap: 6px; /* Reduced gap */
 }
 
 #greeting-container {
-    font-size: 1.8em; /* Proportionally smaller */
+    font-size: 1.6em; /* Proportionally smaller */
     font-weight: 600;
     color: var(--accent);
     text-align: center;
@@ -72,24 +73,24 @@ header {
 }
 
 #clock {
-    font-size: 3.5em; /* Proportionally smaller but still larger */
+    font-size: 3em; /* Proportionally smaller but still prominent */
     font-weight: bold;
     color: var(--text-color);
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.08); /* Smaller shadow */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05); /* Smaller shadow */
     transition: color var(--transition-speed), text-shadow var(--transition-speed);
 }
 
 #date {
-    font-size: 1.05em; /* Proportionally smaller */
+    font-size: 0.95em; /* Proportionally smaller */
     color: var(--text-color);
-    margin-top: 4px; /* Reduced margin */
+    margin-top: 3px; /* Reduced margin */
     transition: color var(--transition-speed);
 }
 
 .utility-widgets {
     display: flex;
     flex-wrap: wrap;
-    gap: 15px; /* Reduced gap */
+    gap: 12px; /* Reduced gap */
     justify-content: center;
     width: 100%;
 }
@@ -97,80 +98,91 @@ header {
 .widget {
     background-color: var(--card-bg);
     border: 1px solid var(--border-color);
-    border-radius: 10px; /* Slightly smaller border-radius */
-    padding: 12px 18px; /* Reduced padding */
+    border-radius: 9px; /* Slightly smaller border-radius */
+    padding: 10px 15px; /* Reduced padding */
     box-shadow: var(--box-shadow);
     transition: background-color var(--transition-speed), border-color var(--transition-speed), box-shadow var(--transition-speed);
     flex: 1;
-    min-width: 220px; /* Adjusted min-width */
-    max-width: 350px; /* Adjusted max-width */
-    font-size: 0.9em; /* Smaller font for widget content */
+    min-width: 200px; /* Adjusted min-width */
+    max-width: 320px; /* Adjusted max-width */
+    font-size: 0.85em; /* Smaller font for widget content */
 }
 
 /* Weather Widget Styles */
 #weather-widget .weather-header {
-    font-size: 1.05em; /* Adjusted font size */
-    margin-bottom: 8px; /* Reduced margin */
+    font-size: 1em; /* Adjusted font size */
+    margin-bottom: 7px; /* Reduced margin */
+    display: flex; /* Ensure center alignment within header */
+    justify-content: center;
+    align-items: center;
 }
 
 #weather-widget #weather-icon {
-    width: 45px; /* Smaller icon */
-    height: 45px;
+    width: 40px; /* Smaller icon */
+    height: 40px;
 }
 #weather-widget #weather-temp {
-    font-size: 2em; /* Proportionally smaller */
+    font-size: 1.8em; /* Proportionally smaller */
 }
 #weather-widget #weather-desc {
-    font-size: 0.9em; /* Proportionally smaller */
+    font-size: 0.85em; /* Proportionally smaller */
 }
 
 /* Quote Widget Styles */
 #quote-widget p {
-    font-size: 1.0em; /* Adjusted font size */
-    margin: 0 0 8px 0; /* Reduced margin */
+    font-size: 0.95em; /* Adjusted font size */
+    margin: 0 0 7px 0; /* Reduced margin */
 }
 #quote-widget cite {
-    font-size: 0.85em; /* Adjusted font size */
+    font-size: 0.8em; /* Adjusted font size */
 }
 
 main {
     width: 100%;
-    max-width: 1100px; /* Consistent with header */
+    max-width: 1000px; /* Consistent with header */
     display: flex;
     flex-direction: column;
-    gap: 25px; /* Reduced gap */
+    gap: 20px; /* Reduced gap */
 }
 
 .controls-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 15px; /* Reduced gap */
-    margin-bottom: 15px; /* Reduced margin */
+    gap: 12px; /* Reduced gap */
+    margin-bottom: 12px; /* Reduced margin */
 }
 
 #search {
-    padding: 8px 30px 8px 12px; /* Reduced padding */
-    border-radius: 6px; /* Slightly smaller border-radius */
-    font-size: 0.95em; /* Adjusted font size */
+    padding: 7px 28px 7px 10px; /* Reduced padding */
+    border-radius: 5px; /* Slightly smaller border-radius */
+    font-size: 0.9em; /* Adjusted font size */
 }
 
 #clear-search {
     right: 3px; /* Adjusted position */
-    font-size: 1.3em; /* Adjusted font size */
+    font-size: 1.2em; /* Adjusted font size */
 }
 
 #mode-toggle {
-    padding: 8px 12px; /* Reduced padding */
-    border-radius: 6px; /* Slightly smaller border-radius */
-    font-size: 0.95em; /* Adjusted font size */
+    padding: 7px 10px; /* Reduced padding */
+    border-radius: 5px; /* Slightly smaller border-radius */
+    font-size: 0.9em; /* Adjusted font size */
 }
+#mode-toggle:hover {
+    background-color: color-mix(in srgb, var(--accent) 85%, black); /* Darken accent color on hover */
+    transform: translateY(-1px);
+}
+body.dark-mode #mode-toggle:hover {
+    background-color: color-mix(in srgb, var(--accent) 85%, white); /* Lighten accent for dark mode */
+}
+
 
 .dashboard-section {
     background-color: var(--card-bg);
     border: 1px solid var(--border-color);
-    border-radius: 10px; /* Consistent border-radius */
-    padding: 18px; /* Reduced padding */
+    border-radius: 9px; /* Consistent border-radius */
+    padding: 16px; /* Reduced padding */
     box-shadow: var(--box-shadow);
     transition: background-color var(--transition-speed), border-color var(--transition-speed), box-shadow var(--transition-speed);
 }
@@ -178,8 +190,8 @@ main {
 /* Grid Layout for Link Sections */
 #link-sections.dashboard-section-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Adjusted minmax for smaller size */
-    gap: 15px; /* Reduced gap */
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* Adjusted minmax for smaller size */
+    gap: 12px; /* Reduced gap */
     padding: 0;
     background: none;
     border: none;
@@ -189,100 +201,195 @@ main {
 #link-sections details {
     background-color: var(--card-bg);
     border: 1px solid var(--border-color);
-    border-radius: 10px; /* Consistent border-radius */
-    padding: 12px 18px; /* Reduced padding */
+    border-radius: 9px; /* Consistent border-radius */
+    padding: 10px 15px; /* Reduced padding */
     box-shadow: var(--box-shadow);
     transition: background-color var(--transition-speed), border-color var(--transition-speed), box-shadow var(--transition-speed), display var(--transition-speed);
     overflow: hidden;
 }
+#link-sections details[open] {
+    box-shadow: var(--box-shadow), 0 0 0 2px color-mix(in srgb, var(--accent) 50%, transparent); /* Lighter accent border on open */
+}
 
 details summary {
     font-weight: bold;
-    font-size: 1.1em; /* Proportionally smaller */
+    font-size: 1.05em; /* Proportionally smaller */
     cursor: pointer;
-    padding: 4px 0; /* Reduced padding */
+    padding: 3px 0; /* Reduced padding */
     list-style: none;
     position: relative;
     color: var(--accent);
     transition: color var(--transition-speed);
     font-family: var(--title-font); /* Serif for summary titles */
 }
+details summary:hover {
+    color: var(--text-color);
+}
 
 ul {
-    margin-top: 12px; /* Reduced margin */
+    list-style: none;
+    padding: 0;
+    margin-top: 10px; /* Reduced margin */
 }
 
 li {
-    margin-bottom: 6px; /* Reduced margin */
+    margin-bottom: 5px; /* Reduced margin */
+}
+li:last-child {
+    margin-bottom: 0;
 }
 
 li a {
-    padding: 7px 9px; /* Reduced padding */
-    border-radius: 5px; /* Smaller border-radius */
-    font-size: 0.9em; /* Proportionally smaller */
+    display: block;
+    padding: 6px 8px; /* Reduced padding */
+    border-radius: 4px; /* Smaller border-radius */
+    text-decoration: none;
+    color: var(--text-color);
+    background-color: color-mix(in srgb, var(--bg-color) 80%, var(--card-bg)); /* Slight variation */
+    transition: background-color var(--transition-speed), color var(--transition-speed), border var(--transition-speed);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.85em; /* Proportionally smaller */
+}
+
+li a:hover {
+    background-color: var(--hover-bg);
+    color: var(--accent);
 }
 
 /* To-Do List Styles */
 #todo-section h2 {
     font-family: var(--title-font); /* Serif for H2 title */
-    font-size: 1.5em; /* Proportionally smaller */
-    margin-bottom: 15px; /* Reduced margin */
+    font-size: 1.3em; /* Proportionally smaller */
+    text-align: center;
+    color: var(--accent);
+    margin-bottom: 15px;
 }
 
 .todo-input-container {
+    display: flex;
     gap: 8px; /* Reduced gap */
-    margin-bottom: 12px; /* Reduced margin */
+    margin-bottom: 10px; /* Reduced margin */
 }
 
 #todo-input {
-    padding: 8px 12px; /* Reduced padding */
-    border-radius: 6px; /* Smaller border-radius */
-    font-size: 0.95em; /* Proportionally smaller */
+    flex-grow: 1;
+    padding: 7px 10px; /* Reduced padding */
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-size: 0.9em; /* Proportionally smaller */
+    transition: border-color var(--transition-speed), background-color var(--transition-speed), color var(--transition-speed);
+}
+#todo-input::placeholder {
+    color: color-mix(in srgb, var(--text-color) 70%, transparent);
+}
+#todo-input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 30%, transparent);
 }
 
 #add-todo-btn {
-    padding: 8px 12px; /* Reduced padding */
-    border-radius: 6px; /* Smaller border-radius */
-    font-size: 0.95em; /* Proportionally smaller */
+    padding: 7px 12px; /* Reduced padding */
+    background-color: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9em; /* Proportionally smaller */
+    transition: background-color var(--transition-speed), transform 0.1s ease;
+}
+#add-todo-btn:hover {
+    background-color: color-mix(in srgb, var(--accent) 85%, black);
+    transform: translateY(-1px);
+}
+body.dark-mode #add-todo-btn:hover {
+    background-color: color-mix(in srgb, var(--accent) 85%, white);
 }
 
+
 #todo-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 8px 12px; /* Reduced padding */
-    border-radius: 6px; /* Smaller border-radius */
-    margin-bottom: 6px; /* Reduced margin */
-    font-size: 0.9em; /* Proportionally smaller */
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    margin-bottom: 5px; /* Reduced margin */
+    transition: background-color var(--transition-speed), border-color var(--transition-speed), box-shadow var(--transition-speed);
+    font-size: 0.88em; /* Proportionally smaller */
+}
+#todo-list li:hover {
+    box-shadow: var(--box-shadow);
+}
+#todo-list li.completed {
+    text-decoration: line-through;
+    color: color-mix(in srgb, var(--text-color) 60%, transparent); /* Faded color for completed */
+    opacity: 0.7;
+    background-color: var(--hover-bg);
+    border-color: var(--hover-bg);
+}
+
+.todo-text {
+    flex-grow: 1;
+    cursor: pointer;
+    padding-right: 8px;
 }
 
 .delete-todo-btn {
+    background: none;
+    border: none;
+    color: #dc3545; /* Red color for delete */
     font-size: 1.1em; /* Adjusted font size */
+    cursor: pointer;
+    transition: color var(--transition-speed), transform 0.1s ease;
+}
+.delete-todo-btn:hover {
+    color: #c82333;
+    transform: scale(1.05);
 }
 
 footer {
-    margin-top: 30px; /* Reduced margin */
-    padding-top: 15px; /* Reduced padding */
-    font-size: 0.85em; /* Proportionally smaller */
+    width: 100%;
+    max-width: 1000px;
+    text-align: center;
+    margin-top: 25px; /* Reduced margin */
+    padding-top: 12px; /* Reduced padding */
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em; /* Proportionally smaller */
+    color: var(--text-color);
+    transition: border-color var(--transition-speed), color var(--transition-speed);
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
     body {
-        padding: 10px;
-        font-size: 0.9em;
+        padding: 8px;
+        font-size: 0.85em;
     }
     header {
         margin-bottom: 15px;
+        gap: 10px;
     }
     #clock {
-        font-size: 2.8em;
+        font-size: 2.5em;
     }
     #greeting-container {
-        font-size: 1.6em;
+        font-size: 1.4em;
     }
     .widget {
-        max-width: 100%;
-        padding: 10px 15px;
+        min-width: unset; /* Allow to shrink more */
+        width: 100%;
+        max-width: 400px;
+        padding: 8px 12px;
     }
     .controls-container {
+        flex-direction: column;
+        align-items: stretch;
         gap: 10px;
         margin-bottom: 10px;
     }
@@ -291,39 +398,37 @@ footer {
         gap: 10px;
     }
     #link-sections details {
-        padding: 10px 15px;
+        padding: 8px 12px;
     }
     details summary {
-        font-size: 1em;
+        font-size: 0.95em;
     }
     li a {
-        font-size: 0.85em;
+        font-size: 0.8em;
+        padding: 5px 7px;
     }
     #todo-section h2 {
-        font-size: 1.4em;
+        font-size: 1.2em;
     }
     #todo-input, #add-todo-btn, #todo-list li {
-        font-size: 0.9em;
+        font-size: 0.85em;
     }
     footer {
-        font-size: 0.8em;
+        font-size: 0.75em;
     }
 }
 
 @media (max-width: 480px) {
     #clock {
-        font-size: 2.2em;
+        font-size: 2em;
     }
     #greeting-container {
-        font-size: 1.4em;
+        font-size: 1.2em;
     }
     #weather-widget #weather-temp {
-        font-size: 1.8em;
+        font-size: 1.6em;
     }
     #search, #mode-toggle, #todo-input, #add-todo-btn {
-        font-size: 0.85em;
-    }
-    .widget {
-        padding: 8px 12px;
+        font-size: 0.8em;
     }
 }

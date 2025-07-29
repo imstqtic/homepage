@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="style.css">
+    <title>dashboard</title> <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
         <div class="header-content">
             <div id="greeting-container">
-                <span id="greeting-text"></span>, Michaël Román. </div>
+                <span id="greeting-text"></span>, michael roman. </div>
             <div class="clock-date-container">
                 <div id="clock"></div>
                 <div id="date"></div>
@@ -19,10 +18,10 @@
         <div class="utility-widgets">
             <div id="weather-widget" class="widget">
                 <div class="weather-header">
-                    <span id="weather-location">Loading Weather...</span>
+                    <span id="weather-location">loading weather...</span>
                 </div>
                 <div class="weather-info">
-                    <img id="weather-icon" src="" alt="Weather Icon" style="display: none;">
+                    <img id="weather-icon" src="" alt="weather icon" style="display: none;">
                     <span id="weather-temp"></span>
                     <span id="weather-desc"></span>
                 </div>
@@ -37,15 +36,15 @@
     <main>
         <div class="controls-container">
             <div class="search-container">
-                <input type="text" id="search" placeholder="Search links">
+                <input type="text" id="search" placeholder="search links">
                 <button id="clear-search" style="display: none;">×</button>
             </div>
-            <button id="mode-toggle">Toggle Dark Mode</button>
+            <button id="mode-toggle">toggle dark mode</button>
         </div>
 
         <section id="favorites-section" class="dashboard-section">
             <details open>
-                <summary>Favorites</summary>
+                <summary>favorites</summary>
                 <ul id="favorites-list">
                     </ul>
             </details>
@@ -53,29 +52,61 @@
 
         <section id="link-sections" class="dashboard-section-grid">
             <details>
-                <summary>Education Platforms</summary>
+                <summary>education platforms</summary>
                 <ul>
-                    <li><a href="https://www.coursera.org/">Coursera</a></li>
-                    <li><a href="https://www.edx.org/">edX</a></li>
-                    <li><a href="https://www.udemy.com/">Udemy</a></li>
-                    <li><a href="https://www.khanacademy.org/">Khan Academy</a></li>
+                    <li><a href="https://www.coursera.org/">coursera</a></li>
+                    <li><a href="https://www.edx.org/">edx</a></li>
+                    <li><a href="https://www.khanacademy.org/">khan academy</a></li>
                 </ul>
             </details>
             <details>
-                <summary>MIT OCW</summary>
+                <summary>mit ocw</summary>
                 <ul>
-                    <li><a href="https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/">EECS</a></li>
-                    <li><a href="https://ocw.mit.edu/courses/mathematics/">Mathematics</a></li>
-                    <li><a href="https://ocw.mit.edu/courses/physics/">Physics</a></li>
+                    <li><a href="https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/">eecs</a></li>
+                    <li><a href="https://ocw.mit.edu/courses/mathematics/">mathematics</a></li>
+                    <li><a href="https://ocw.mit.edu/courses/physics/">physics</a></li>
+                    <li><a href="https://ocw.mit.edu/courses/aeronautics-and-astronautics/16-07-dynamics-fall-2009/">mechanics</a></li>
+                    <li><a href="https://ocw.mit.edu/courses/mathematics/18-06-linear-algebra-spring-2010/">linear algebra</a></li>
+                    <li><a href="https://ocw.mit.edu/courses/physics/8-02-electricity-and-magnetism-spring-2002/">e/m</a></li>
+                    <li><a href="https://ocw.mit.edu/courses/mathematics/18-02-multivariable-calculus-fall-2007/">multivariate calc</a></li>
+                    <li><a href="https://ocw.mit.edu/courses/mathematics/18-01-single-variable-calculus-fall-2007/">single variable calc</a></li>
+                    <li><a href="https://ocw.mit.edu/courses/biology/">biology</a></li>
+                    <li><a href="https://ocw.mit.edu/courses/chemistry/">chemistry</a></li>
                 </ul>
             </details>
-            </section>
+            <details>
+                <summary>language learning</summary>
+                <ul>
+                    <li><a href="https://www.duolingo.com/">duolingo</a></li>
+                    <li><a href="https://www.memrise.com/">memrise</a></li>
+                    <li><a href="https://www.italki.com/">italki</a></li>
+                </ul>
+            </details>
+            <details>
+                <summary>books/films</summary>
+                <ul>
+                    <li><a href="https://www.goodreads.com/">goodreads</a></li>
+                    <li><a href="https://letterboxd.com/">letterboxd</a></li>
+                    <li><a href="https://www.imdb.com/">imdb</a></li>
+                    <li><a href="https://archive.org/">internet archive</a></li>
+                </ul>
+            </details>
+            <details>
+                <summary>utilities</summary>
+                <ul>
+                    <li><a href="https://chat.openai.com/">chatgpt</a></li>
+                    <li><a href="https://bard.google.com/">gemini (formerly bard)</a></li>
+                    <li><a href="https://calendar.google.com/">google calendar</a></li>
+                    <li><a href="https://mail.google.com/">gmail</a></li>
+                </ul>
+            </details>
+        </section>
 
         <section id="todo-section" class="dashboard-section">
-            <h2>To-Do List</h2>
+            <h2>to-do list</h2>
             <div class="todo-input-container">
-                <input type="text" id="todo-input" placeholder="Add a new task...">
-                <button id="add-todo-btn">Add</button>
+                <input type="text" id="todo-input" placeholder="add a new task...">
+                <button id="add-todo-btn">add</button>
             </div>
             <ul id="todo-list">
                 </ul>
@@ -84,7 +115,7 @@
     </main>
 
     <footer>
-        <p>© 2024 Michaël Román. All rights reserved.</p>
+        <p>© 2024 michael roman. all rights reserved.</p>
     </footer>
 
     <script src="script.js"></script>
