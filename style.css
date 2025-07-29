@@ -96,3 +96,12 @@ a:hover {
   }
 }
 
+:root {
+  --accent: #6e6a8a; /* Catppuccin Frappe
+
+a[title*="Last visited"] {
+  background-color: rgba(110, 106, 138, 0.1);
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+

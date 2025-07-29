@@ -41,3 +41,31 @@ setInterval(updateClock, 1000);
 
 // Initial call to display the clock immediately
 updateClock();
+
+// 🧠 Scroll position memory
+window.addEventListener("beforeunload", () => {
+  localStorage.setItem("scroll-pos", window.scrollY);
+});
+window.addEventListener("load", () => {
+  const y = parseInt(localStorage.getItem("scroll-pos") || "0", 10);
+  window.scrollTo(0, y);
+});
+
+// 🧭 Track last visited link
+document.querySelectorAll("li[data-id] a").forEach(link => {
+  link.addEventListener("click", () => {
+    localStorage.setItem("last-visited", link.href);
+  });
+});
+
+// 🔎 Highlight last visited link
+window.addEventListener("load", () => {
+  const last = localStorage.getItem("last-visited");
+  if (last) {
+    const link = document.querySelector(`a[href="${last}"]`);
+    if (link) {
+      link.style.border = "2px dashed var(--accent)";
+      link.title += " (Last visited)";
+    }
+  }
+});
