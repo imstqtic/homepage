@@ -1,19 +1,34 @@
-// Function to update the clock and date
-function updateClock() {
+// --- Clock and Date Logic ---
+function updateClockAndGreeting() {
     const now = new Date();
     const clock = document.getElementById("clock");
     const date = document.getElementById("date");
+    const greetingText = document.getElementById("greeting-text");
 
-    const options = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false, timeZone: 'America/New_York' };
+    // Clock format
+    const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false, timeZone: 'America/New_York' };
+    clock.textContent = now.toLocaleTimeString('en-US', timeOptions);
+
+    // Date format
     const dateOptions = { weekday: 'long', year: 'numeric', month: 'numeric', day: 'numeric', timeZone: 'America/New_York' };
-
-    clock.textContent = now.toLocaleTimeString('en-US', options);
     date.textContent = now.toLocaleDateString('en-US', dateOptions);
-}
-setInterval(updateClock, 1000);
-updateClock(); // Call immediately to avoid initial blank display
 
-// Restore scroll position
+    // Dynamic Greeting
+    const hour = now.getHours();
+    let greeting = "";
+    if (hour < 12) {
+        greeting = "Good Morning";
+    } else if (hour < 18) {
+        greeting = "Good Afternoon";
+    } else {
+        greeting = "Good Evening";
+    }
+    greetingText.textContent = greeting;
+}
+setInterval(updateClockAndGreeting, 1000);
+updateClockAndGreeting(); // Call immediately to avoid initial blank display
+
+// --- Scroll Position Logic ---
 window.addEventListener("beforeunload", () => {
     localStorage.setItem("scroll-pos", window.scrollY);
 });
@@ -22,23 +37,149 @@ window.addEventListener("load", () => {
     window.scrollTo(0, parseInt(localStorage.getItem("scroll-pos") || "0", 10));
 });
 
-// Highlight last visited
+// --- Last Visited Highlight Logic ---
 window.addEventListener("load", () => {
     const last = localStorage.getItem("last-visited");
     if (last) {
-        // Ensure we only highlight links within the main sections, not the favorite bar itself
         const link = document.querySelector(`section#link-sections a[href="${last}"], section#favorites-section a[href="${last}"]`);
         if (link) {
-            link.style.border = "2px dashed var(--accent)"; // Assuming you have --accent defined in your CSS
+            link.style.border = "2px dashed var(--accent)";
             link.title += " (Last visited)";
         }
     }
 });
 
-// --- FAVORITES BAR LOGIC ---
+// --- Weather Widget Logic ---
+// IMPORTANT: Replace 'YOUR_API_KEY' with your actual OpenWeatherMap API key
+// Get one for free here: https://openweathermap.org/api
+const WEATHER_API_KEY = 'YOUR_API_KEY'; // <--- !!! REPLACE THIS !!!
+const WEATHER_CITY = 'New York'; // Or your preferred city, e.g., 'London', 'Tokyo'
+const WEATHER_UNITS = 'imperial'; // 'metric' for Celsius, 'imperial' for Fahrenheit
 
+async function fetchWeatherData() {
+    if (WEATHER_API_KEY === 'YOUR_API_KEY') {
+        document.getElementById('weather-location').textContent = 'Weather API Key Missing!';
+        document.getElementById('weather-location').style.color = 'red';
+        console.error('OpenWeatherMap API Key is not set. Please get one from openweathermap.org and replace YOUR_API_KEY in script.js');
+        return;
+    }
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${WEATHER_CITY}&units=${WEATHER_UNITS}&appid=${WEATHER_API_KEY}`;
+    
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Weather data fetch failed: ${response.statusText}`);
+        }
+        const data = await response.json();
+        
+        document.getElementById('weather-location').textContent = data.name;
+        document.getElementById('weather-temp').textContent = `${Math.round(data.main.temp)}°${WEATHER_UNITS === 'imperial' ? 'F' : 'C'}`;
+        document.getElementById('weather-desc').textContent = data.weather[0].description;
+        
+        const weatherIcon = document.getElementById('weather-icon');
+        weatherIcon.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}.png`;
+        weatherIcon.style.display = 'block'; // Show icon once loaded
+        weatherIcon.alt = data.weather[0].description;
+
+    } catch (error) {
+        console.error('Error fetching weather data:', error);
+        document.getElementById('weather-location').textContent = 'Failed to load weather.';
+        document.getElementById('weather-location').style.color = 'red';
+        document.getElementById('weather-icon').style.display = 'none';
+    }
+}
+// Fetch weather data every 10 minutes (600,000 ms)
+fetchWeatherData();
+setInterval(fetchWeatherData, 600000);
+
+// --- Dynamic Quotes Logic ---
+const quotes = [
+    { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+    { text: "Success is not final, failure is not fatal: it is the courage to continue that counts.", author: "Winston S. Churchill" },
+    { text: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" },
+    { text: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" },
+    { text: "The best way to predict the future is to create it.", author: "Peter Drucker" },
+    { text: "Strive not to be a success, but rather to be of value.", author: "Albert Einstein" },
+    { text: "The mind is everything. What you think you become.", author: "Buddha" },
+    { text: "It is during our darkest moments that we must focus to see the light.", author: "Aristotle" },
+    { text: "Keep your eyes on the stars, and your feet on the ground.", author: "Theodore Roosevelt" },
+    { text: "The secret of getting ahead is getting started.", author: "Mark Twain" }
+];
+
+function displayRandomQuote() {
+    const quoteText = document.getElementById('quote-text');
+    const quoteAuthor = document.getElementById('quote-author');
+    const randomIndex = Math.floor(Math.random() * quotes.length);
+    const randomQuote = quotes[randomIndex];
+    quoteText.textContent = `"${randomQuote.text}"`;
+    quoteAuthor.textContent = `- ${randomQuote.author}`;
+}
+displayRandomQuote(); // Display a quote on load
+
+// --- To-Do List Logic ---
+const todoInput = document.getElementById('todo-input');
+const addTodoBtn = document.getElementById('add-todo-btn');
+const todoList = document.getElementById('todo-list');
+
+let todos = JSON.parse(localStorage.getItem('todos')) || [];
+
+function renderTodos() {
+    todoList.innerHTML = ''; // Clear current list
+    todos.forEach((todo, index) => {
+        const li = document.createElement('li');
+        li.classList.toggle('completed', todo.completed);
+        li.dataset.index = index; // Store index for easy access
+
+        const span = document.createElement('span');
+        span.textContent = todo.text;
+        span.classList.add('todo-text');
+        span.addEventListener('click', () => {
+            todos[index].completed = !todos[index].completed;
+            saveTodos();
+            renderTodos();
+        });
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent = '×';
+        deleteBtn.classList.add('delete-todo-btn');
+        deleteBtn.addEventListener('click', () => {
+            todos.splice(index, 1); // Remove item from array
+            saveTodos();
+            renderTodos();
+        });
+
+        li.appendChild(span);
+        li.appendChild(deleteBtn);
+        todoList.appendChild(li);
+    });
+}
+
+function saveTodos() {
+    localStorage.setItem('todos', JSON.stringify(todos));
+}
+
+addTodoBtn.addEventListener('click', () => {
+    const text = todoInput.value.trim();
+    if (text) {
+        todos.push({ text: text, completed: false });
+        todoInput.value = ''; // Clear input
+        saveTodos();
+        renderTodos();
+    }
+});
+
+// Allow adding with Enter key
+todoInput.addEventListener('keypress', (event) => {
+    if (event.key === 'Enter') {
+        addTodoBtn.click();
+    }
+});
+
+renderTodos(); // Initial render of todos on page load
+
+// --- Favorites Bar Logic ---
 const favoritesList = document.getElementById('favorites-list');
-const FAVORITES_LIMIT = 5; // Set the limit to 5
+const FAVORITES_LIMIT = 5;
 
 /**
  * Ensures a favorite object has the correct structure (href, text, count).
@@ -48,159 +189,120 @@ const FAVORITES_LIMIT = 5; // Set the limit to 5
  */
 function cleanFavoriteData(favData) {
     if (typeof favData === 'string') {
-        // Handle very old format (just URL string)
         const originalLink = document.querySelector(`a[href="${favData}"]`);
         return {
             href: favData,
-            text: originalLink ? originalLink.textContent : favData, // Use link text or fallback to URL
-            count: 1 // Assign a default count for old links
+            text: originalLink ? originalLink.textContent : favData,
+            count: 1
         };
     } else if (typeof favData === 'object' && favData !== null) {
-        // Handle object format, ensure properties exist and are correct types
         const cleanedFav = {
-            href: favData.href || '', // Ensure href exists
-            text: favData.text || favData.href || '', // Ensure text exists, fallback to href
-            count: (typeof favData.count === 'number' && !isNaN(favData.count)) ? favData.count : 1 // Ensure count is a valid number
+            href: favData.href || '',
+            text: favData.text || favData.href || '',
+            count: (typeof favData.count === 'number' && !isNaN(favData.count)) ? favData.count : 1
         };
         return cleanedFav;
     }
-    // Fallback for unexpected data format
     return { href: '', text: 'Invalid Link', count: 1 };
 }
 
-// Function to render the favorites list
 function renderFavorites() {
-    // Clear existing list items
     favoritesList.innerHTML = '';
-
-    // Get favorites from localStorage, and clean/normalize the data immediately
     let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
     favorites = favorites.map(cleanFavoriteData);
-
-    // Sort favorites by count in descending order
     favorites.sort((a, b) => b.count - a.count);
-
-    // Take only the top N links based on FAVORITES_LIMIT
     const topFavorites = favorites.slice(0, FAVORITES_LIMIT);
 
-    // Populate the list with the sorted and limited favorites
     topFavorites.forEach(fav => {
         const li = document.createElement('li');
-        const a = document.createElement('a'); // Create the <a> element
-        a.href = fav.href; // Set its href attribute
-        a.textContent = fav.text; // Set its display text (NO COUNT HERE)
-
-        // Add a class for identifying favorite items, useful for click-to-remove
+        const a = document.createElement('a');
+        a.href = fav.href;
+        a.textContent = fav.text;
         a.classList.add('favorite-item-link'); 
-        
-        // Optional: Add a title with the count for debugging/info on hover
         a.title = `Clicked ${fav.count} times`; 
-        
-        li.appendChild(a); // Append the <a> to the <li>
-        favoritesList.appendChild(li); // Append the <li> (which now contains an <a>) to the ul
+        li.appendChild(a);
+        favoritesList.appendChild(li);
     });
-
-    // Save the potentially cleaned/updated favorites back to localStorage after rendering.
-    // This helps clean up old formats over time as users visit the page.
     localStorage.setItem('favorites', JSON.stringify(favorites));
 }
 
-// Initial render of favorites on page load
-window.addEventListener('load', renderFavorites);
-
+// Initial render of favorites on page load (already called above in window.onload)
+window.addEventListener('load', renderFavorites); // Ensuring it runs even if order changes
 
 // Add click listener to all GENERAL links (NOT favorites bar links)
-// We use a more specific selector to avoid conflicts with the favoritesList listener.
 document.querySelectorAll("section#link-sections a").forEach(link => { 
     link.addEventListener("click", (event) => {
-        // Do NOT prevent default here, let the link navigate normally.
-        
         localStorage.setItem("last-visited", link.href);
-
-        // Get favorites, and clean/normalize the data *before* processing
         let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
         favorites = favorites.map(cleanFavoriteData);
-
-        // Find if the clicked link already exists in favorites
         const existingFavoriteIndex = favorites.findIndex(fav => fav.href === link.href);
 
         if (existingFavoriteIndex > -1) {
-            // If exists, increment its count
             favorites[existingFavoriteIndex].count++;
         } else {
-            // If not exists, add as a new favorite with count 1
             const newFavorite = {
                 href: link.href,
-                text: link.textContent, // Store the link's display text
-                count: 1 // Initialize count to 1
+                text: link.textContent,
+                count: 1
             };
             favorites.push(newFavorite);
         }
-
-        // Save the updated favorites array back to localStorage
         localStorage.setItem('favorites', JSON.stringify(favorites));
-
-        // Re-render the favorites list to reflect the updated counts and order
         renderFavorites();
     });
 });
 
 // Add click listener to the favorites list itself for removal functionality
 favoritesList.addEventListener('click', (event) => {
-    const clickedLink = event.target.closest('.favorite-item-link'); // Find the clicked <a> with the class
-    
+    const clickedLink = event.target.closest('.favorite-item-link'); 
     if (clickedLink) {
-        // PREVENT default navigation ONLY for clicks on favorite items,
-        // so the confirmation dialog can appear.
         event.preventDefault(); 
-
         const linkHref = clickedLink.href;
         const linkText = clickedLink.textContent;
 
         if (confirm(`Do you want to remove "${linkText}" from your favorites?`)) {
             let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-            favorites = favorites.map(cleanFavoriteData); // Clean data before filtering
-
-            // Filter out the item to be removed
+            favorites = favorites.map(cleanFavoriteData);
             favorites = favorites.filter(fav => fav.href !== linkHref);
-
             localStorage.setItem('favorites', JSON.stringify(favorites));
-            renderFavorites(); // Re-render the list
+            renderFavorites();
         } else {
-            // If user cancels removal, navigate to the link normally
-            window.location.href = linkHref; // This is crucial for navigating if 'cancel' is pressed
+            window.location.href = linkHref;
         }
     }
 });
 
+// --- Search Filter Logic ---
+const searchInput = document.getElementById('search');
+const clearSearchButton = document.getElementById('clear-search');
 
-// --- END FAVORITES BAR LOGIC ---
-
-// Search filter
-document.getElementById('search').addEventListener('input', function () {
+searchInput.addEventListener('input', function () {
     const filter = this.value.toLowerCase();
     
-    // Select all <details> sections in #link-sections
+    // Show/hide clear button based on input content
+    if (this.value.length > 0) {
+        clearSearchButton.style.display = 'block';
+    } else {
+        clearSearchButton.style.display = 'none';
+    }
+
+    // Filter <details> sections in #link-sections
     const linkSectionsDetails = document.querySelectorAll('section#link-sections details');
-
-    // Iterate over each <details> section (e.g., Education Platforms, MIT OCW)
     linkSectionsDetails.forEach(details => {
-        let sectionHasMatches = false; // Flag to track if any link in this <details> section matches
-
-        const listItems = details.querySelectorAll('li'); // Get all <li>s within the current <details>
+        let sectionHasMatches = false;
+        const listItems = details.querySelectorAll('li');
         
         listItems.forEach(li => {
             const aTag = li.querySelector('a');
             if (aTag) {
                 const text = aTag.textContent.toLowerCase();
                 if (text.includes(filter)) {
-                    li.style.display = ""; // Show the list item
-                    sectionHasMatches = true; // Mark that this section has a match
+                    li.style.display = "";
+                    sectionHasMatches = true;
                 } else {
-                    li.style.display = "none"; // Hide the list item
+                    li.style.display = "none";
                 }
             } else {
-                // Fallback for li without an <a> (though less likely in your structure)
                 const text = li.textContent.toLowerCase();
                 if (text.includes(filter)) {
                     li.style.display = "";
@@ -211,23 +313,23 @@ document.getElementById('search').addEventListener('input', function () {
             }
         });
 
-        // Determine if the entire <details> section should be shown/hidden
-        if (filter.length > 0) { // If there's an active search filter
+        if (filter.length > 0) {
             if (!sectionHasMatches) {
-                details.style.display = "none"; // Hide the whole section if no matches
+                details.style.display = "none";
             } else {
-                details.style.display = ""; // Show the section if matches are found
-                details.open = true; // Automatically open the section if it has matches
+                details.style.display = "";
+                details.open = true; // Automatically open section if it has matches
             }
-        } else { // If the search filter is empty, show all sections and close them (or restore state)
-            details.style.display = ""; // Show the section
-            // You could add logic here to restore their previous 'open' state if stored
-            // For now, let's just close them if no filter is active.
-            details.open = false; // Close sections when search is cleared
+        } else {
+            details.style.display = "";
+            // Restore details state based on localStorage when search is cleared
+            const detailId = details.querySelector('summary').textContent.trim().replace(/\s+/g, '-').toLowerCase(); 
+            const savedState = localStorage.getItem(`details-state-${detailId}`);
+            details.open = (savedState === 'open'); // Default to closed if no state or 'closed'
         }
     });
 
-    // Special handling for the #favorites-section
+    // Handle #favorites-section
     const favoritesSection = document.getElementById('favorites-section');
     if (favoritesSection) {
         let favoritesSectionHasMatches = false;
@@ -254,7 +356,6 @@ document.getElementById('search').addEventListener('input', function () {
             }
         });
 
-        // Show/hide the entire favorites section
         if (filter.length > 0) {
             if (!favoritesSectionHasMatches) {
                 favoritesSection.style.display = "none";
@@ -262,13 +363,18 @@ document.getElementById('search').addEventListener('input', function () {
                 favoritesSection.style.display = "";
             }
         } else {
-            favoritesSection.style.display = ""; // Show favorites section when search is cleared
+            favoritesSection.style.display = "";
         }
     }
 });
 
+clearSearchButton.addEventListener('click', function() {
+    searchInput.value = ''; // Clear the input
+    searchInput.dispatchEvent(new Event('input')); // Manually trigger the input event to reset filter
+});
 
-// Dark mode toggle
+
+// --- Dark Mode Toggle Logic ---
 const modeToggle = document.getElementById('mode-toggle');
 modeToggle.addEventListener('click', () => {
     document.body.classList.toggle('dark-mode');
@@ -281,18 +387,22 @@ window.addEventListener('load', () => {
     }
 });
 
-
-// Remember details section open/closed state (from previous suggestion)
+// --- Remember details section open/closed state ---
 document.querySelectorAll('details').forEach(details => {
     // Create a unique ID for each details element based on its summary text
     const detailId = details.querySelector('summary').textContent.trim().replace(/\s+/g, '-').toLowerCase(); 
     
-    // Load state on page load (only for details in link-sections, not favorites if it were a details)
+    // Load state on page load
     const savedState = localStorage.getItem(`details-state-${detailId}`);
     if (savedState === 'open') {
         details.open = true;
     } else if (savedState === 'closed') {
         details.open = false;
+    } else {
+        // Default behavior if no saved state, ensure favorites are open
+        if (details.closest('#favorites-section')) {
+            details.open = true;
+        }
     }
 
     // Save state on toggle

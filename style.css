@@ -1,115 +1,467 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Hack&display=swap');
-
 :root {
-  --accent: #b4befe;
-  --background: #f5f5f5;
-  --foreground: #ffffff;
-  --text: #222;
+    --bg-color: #f0f2f5;
+    --text-color: #333;
+    --card-bg: #fff;
+    --border-color: #ddd;
+    --accent: #007bff;
+    --hover-bg: #e9ecef;
+    --box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    --transition-speed: 0.3s ease; /* For subtle transitions */
 }
 
-.dark-mode {
-  --accent: #ca9ee6;
-  --background: #1e1e2e;
-  --foreground: #2a2a37;
-  --text: #cdd6f4;
+body.dark-mode {
+    --bg-color: #2c2c2c;
+    --text-color: #e0e0e0;
+    --card-bg: #3c3c3c;
+    --border-color: #555;
+    --accent: #8ab4f8; /* A nice blue for dark mode */
+    --hover-bg: #4a4a4a;
+    --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
 }
 
 body {
-  font-family: 'Hack', monospace;
-  background: var(--background);
-  color: var(--text);
-  display: flex;
-  justify-content: center;
-  padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center content horizontally */
+    min-height: 100vh;
+    transition: background-color var(--transition-speed), color var(--transition-speed); /* Global transition */
+    scroll-behavior: smooth; /* For smooth scrolling */
 }
 
 header {
-  text-align: center;
-  margin-bottom: 1rem;
+    width: 100%;
+    max-width: 1200px;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
 }
-header h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: 2.5rem;
-  color: var(--accent);
+
+.header-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
 }
-#clock, #date {
-  margin: 4px 0;
+
+#greeting-container {
+    font-size: 2.2em;
+    font-weight: 600;
+    color: var(--accent);
+    text-align: center;
+    transition: color var(--transition-speed);
 }
-#mode-toggle {
-  margin-top: 10px;
-  padding: 5px 10px;
-  background: var(--foreground);
-  border: 1px solid var(--accent);
-  color: var(--text);
-  border-radius: 6px;
-  cursor: pointer;
+
+.clock-date-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#clock {
+    font-size: 4em; /* Larger size for the time */
+    font-weight: bold;
+    color: var(--text-color);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    transition: color var(--transition-speed), text-shadow var(--transition-speed);
+}
+
+#date {
+    font-size: 1.2em;
+    color: var(--text-color);
+    margin-top: 5px;
+    transition: color var(--transition-speed);
+}
+
+.utility-widgets {
+    display: flex;
+    flex-wrap: wrap; /* Allow widgets to wrap on smaller screens */
+    gap: 20px;
+    justify-content: center;
+    width: 100%;
+}
+
+.widget {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 15px 20px;
+    box-shadow: var(--box-shadow);
+    transition: background-color var(--transition-speed), border-color var(--transition-speed), box-shadow var(--transition-speed);
+    flex: 1; /* Allow widgets to grow and shrink */
+    min-width: 250px; /* Minimum width before wrapping */
+    max-width: 400px;
+}
+
+/* Weather Widget Styles */
+#weather-widget .weather-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.1em;
+    font-weight: 500;
+    margin-bottom: 10px;
+    color: var(--accent);
+}
+
+#weather-widget .weather-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+#weather-widget #weather-icon {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+#weather-widget #weather-temp {
+    font-size: 2.5em;
+    font-weight: bold;
+}
+#weather-widget #weather-desc {
+    font-size: 1em;
+    text-transform: capitalize;
+}
+
+/* Quote Widget Styles */
+#quote-widget p {
+    font-style: italic;
+    margin: 0 0 10px 0;
+    text-align: center;
+    font-size: 1.1em;
+}
+#quote-widget cite {
+    display: block;
+    text-align: right;
+    font-size: 0.9em;
+    color: var(--text-color);
+}
+
+main {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.controls-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
 }
 
 .search-container {
-  display: flex;
-  justify-content: center;
-  margin: 20px 0;
-}
-.search-container input {
-  width: 60%;
-  max-width: 500px;
-  padding: 12px;
-  font-size: 1rem;
-  border-radius: 8px;
-  border: 1px solid var(--accent);
-  outline: none;
-  transition: 0.3s;
-}
-.search-container input:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 5px var(--accent);
+    position: relative;
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
 }
 
-.favorites {
-  background: var(--foreground);
-  padding: 20px;
-  border-radius: 10px;
-  margin-bottom: 2rem;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+#search {
+    flex-grow: 1;
+    padding: 10px 35px 10px 15px; /* Adjust padding for button */
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    font-size: 1em;
+    transition: border-color var(--transition-speed), background-color var(--transition-speed), color var(--transition-speed);
 }
-.favorites h2 {
-  color: var(--accent);
+#search::placeholder {
+    color: var(--text-color);
+    opacity: 0.7;
+}
+#search:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
 }
 
-section details {
-  margin-bottom: 1.5rem;
-  background: var(--foreground);
-  padding: 1rem;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+#clear-search {
+    position: absolute;
+    right: 5px;
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: var(--text-color);
+    padding: 0 5px;
+    line-height: 1;
+    transition: color var(--transition-speed);
 }
-summary {
-  font-size: 1.3rem;
-  font-weight: bold;
-  cursor: pointer;
-  color: var(--accent);
+#clear-search:hover {
+    color: var(--accent);
 }
+
+#mode-toggle {
+    padding: 10px 15px;
+    background-color: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color var(--transition-speed), transform 0.1s ease;
+}
+#mode-toggle:hover {
+    background-color: darken(var(--accent), 10%); /* Placeholder for darker color, use specific color in production */
+    transform: translateY(-1px);
+}
+body.dark-mode #mode-toggle:hover {
+    background-color: lighten(var(--accent), 10%);
+}
+
+.dashboard-section {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: var(--box-shadow);
+    transition: background-color var(--transition-speed), border-color var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+/* Grid Layout for Link Sections */
+#link-sections.dashboard-section-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Responsive grid */
+    gap: 20px;
+    padding: 0; /* Remove padding from this section as children have padding */
+    background: none; /* No background for the grid container itself */
+    border: none;
+    box-shadow: none;
+}
+
+#link-sections details {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 15px 20px;
+    box-shadow: var(--box-shadow);
+    transition: background-color var(--transition-speed), border-color var(--transition-speed), box-shadow var(--transition-speed), display var(--transition-speed);
+    overflow: hidden; /* Important for hiding content during search */
+}
+#link-sections details[open] {
+    box-shadow: var(--box-shadow), 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+
+details summary {
+    font-weight: bold;
+    font-size: 1.2em;
+    cursor: pointer;
+    padding: 5px 0;
+    list-style: none; /* Remove default arrow */
+    position: relative;
+    color: var(--accent);
+    transition: color var(--transition-speed);
+}
+details summary:hover {
+    color: var(--text-color); /* Hover effect for summary */
+}
+
+/* Custom arrow for details summary */
+details summary::-webkit-details-marker {
+    display: none;
+}
+details summary::before {
+    content: '▶';
+    display: inline-block;
+    margin-right: 0.5em;
+    transition: transform var(--transition-speed);
+    color: var(--text-color);
+}
+details[open] summary::before {
+    content: '▼';
+    transform: rotate(90deg);
+}
+
 ul {
-  list-style: none;
-  padding-left: 0;
-  margin-top: 1rem;
+    list-style: none;
+    padding: 0;
+    margin-top: 15px;
 }
+
 li {
-  margin: 0.5rem 0;
+    margin-bottom: 8px;
+    transition: background-color var(--transition-speed), display var(--transition-speed); /* Transition display too */
 }
-a {
-  color: var(--text);
-  text-decoration: none;
-  font-weight: 600;
-}
-a:hover {
-  color: var(--accent);
+li:last-child {
+    margin-bottom: 0;
 }
 
-/* Responsive design */
-@media (max-width: 600px) {
-  .search-container input {
-    width: 90%;
-  }
+li a {
+    display: block;
+    padding: 8px 10px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: var(--text-color);
+    background-color: var(--bg-color); /* Lighter background for links */
+    transition: background-color var(--transition-speed), color var(--transition-speed), border var(--transition-speed);
+    overflow: hidden; /* Ensures text overflow doesn't break border */
+    text-overflow: ellipsis; /* Add ellipsis for long links */
+    white-space: nowrap; /* Keep link text on one line */
 }
 
+li a:hover {
+    background-color: var(--hover-bg);
+    color: var(--accent);
+}
+
+/* To-Do List Styles */
+#todo-section h2 {
+    text-align: center;
+    color: var(--accent);
+    margin-bottom: 20px;
+}
+
+.todo-input-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+#todo-input {
+    flex-grow: 1;
+    padding: 10px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-size: 1em;
+    transition: border-color var(--transition-speed), background-color var(--transition-speed), color var(--transition-speed);
+}
+#todo-input::placeholder {
+    color: var(--text-color);
+    opacity: 0.7;
+}
+#todo-input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+}
+
+#add-todo-btn {
+    padding: 10px 15px;
+    background-color: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color var(--transition-speed), transform 0.1s ease;
+}
+#add-todo-btn:hover {
+    background-color: darken(var(--accent), 10%);
+    transform: translateY(-1px);
+}
+body.dark-mode #add-todo-btn:hover {
+    background-color: lighten(var(--accent), 10%);
+}
+
+#todo-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin-bottom: 8px;
+    transition: background-color var(--transition-speed), border-color var(--transition-speed), box-shadow var(--transition-speed);
+}
+#todo-list li:hover {
+    box-shadow: var(--box-shadow);
+}
+#todo-list li.completed {
+    text-decoration: line-through;
+    color: var(--text-color);
+    opacity: 0.7;
+    background-color: var(--hover-bg);
+    border-color: var(--hover-bg);
+}
+
+.todo-text {
+    flex-grow: 1;
+    cursor: pointer;
+    padding-right: 10px;
+}
+
+.delete-todo-btn {
+    background: none;
+    border: none;
+    color: #dc3545; /* Red color for delete */
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: color var(--transition-speed);
+}
+.delete-todo-btn:hover {
+    color: #c82333;
+    transform: scale(1.1);
+}
+
+footer {
+    width: 100%;
+    max-width: 1200px;
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.9em;
+    color: var(--text-color);
+    transition: border-color var(--transition-speed), color var(--transition-speed);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+    header {
+        margin-bottom: 20px;
+    }
+    #clock {
+        font-size: 3em;
+    }
+    #greeting-container {
+        font-size: 1.8em;
+    }
+    .utility-widgets {
+        flex-direction: column;
+        align-items: center;
+    }
+    .widget {
+        min-width: unset;
+        width: 100%;
+        max-width: 450px; /* Limit width on smaller screens */
+    }
+    .controls-container {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+    }
+    #link-sections.dashboard-section-grid {
+        grid-template-columns: 1fr; /* Single column on small screens */
+    }
+    #search {
+        padding-right: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    #clock {
+        font-size: 2.5em;
+    }
+    #greeting-container {
+        font-size: 1.5em;
+    }
+}
