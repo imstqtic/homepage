@@ -178,18 +178,93 @@ favoritesList.addEventListener('click', (event) => {
 // Search filter
 document.getElementById('search').addEventListener('input', function () {
     const filter = this.value.toLowerCase();
-    // Select all <li> elements that are descendants of <section> and <ul>
-    document.querySelectorAll('section ul li').forEach(li => {
-        const aTag = li.querySelector('a'); // Get the anchor tag within the list item
-        if (aTag) {
-            const text = aTag.textContent.toLowerCase(); // Use the text content of the anchor
-            li.style.display = text.includes(filter) ? "" : "none";
+    const allDetailsSections = document.querySelectorAll('section#link-sections details, section#favorites-section details'); // Get all <details> elements
+
+    allDetailsSections.forEach(details => {
+        let sectionHasMatches = false; // Flag to check if any link in this details section matches
+
+        // If it's the favorites section, handle it slightly differently as it's not a <details> directly.
+        // Or, if you want favorites to always show, skip filtering it here.
+        // For simplicity, let's assume favorites is also part of the 'details' structure or we skip it for now.
+        // For your current HTML structure, '#favorites-section' is a <section>, not a <details>.
+        // Let's adjust the selector for its internal <li>s.
+
+        const listItems = details.querySelectorAll('li'); // Get all <li>s within this <details>
+        if (details.id === 'favorites-section') { // Special handling for the favorites section
+            // In your HTML, #favorites-section contains a ul, not details.
+            // We need to target the ul's li's directly.
+            // Let's assume for search logic, we treat favorites just like other list items.
+            // This part of the code needs to be outside the details.forEach
+            // or refined to match your exact HTML structure for favorites.
+            // For now, let's process ALL <li> elements, then hide their parent <details> if needed.
+        }
+
+        listItems.forEach(li => {
+            const aTag = li.querySelector('a');
+            if (aTag) {
+                const text = aTag.textContent.toLowerCase();
+                if (text.includes(filter)) {
+                    li.style.display = ""; // Show the list item
+                    sectionHasMatches = true; // Mark that this section has a match
+                } else {
+                    li.style.display = "none"; // Hide the list item
+                }
+            } else {
+                // Fallback for li without an <a>
+                const text = li.textContent.toLowerCase();
+                if (text.includes(filter)) {
+                    li.style.display = "";
+                    sectionHasMatches = true;
+                } else {
+                    li.style.display = "none";
+                }
+            }
+        });
+
+        // Hide the entire <details> section if no matches were found within it
+        if (filter.length > 0 && !sectionHasMatches) { // Only hide if there's an active filter
+            details.style.display = "none";
         } else {
-            // Fallback for li elements that might not contain an <a> (though they should in this structure)
-            const text = li.textContent.toLowerCase();
-            li.style.display = text.includes(filter) ? "" : "none";
+            details.style.display = ""; // Show the section if no filter or if it has matches
+            // If filtering an item, ensure the parent <details> is open
+            if (filter.length > 0 && sectionHasMatches && details.tagName === 'DETAILS') {
+                 details.open = true; // Automatically open details if a match is found inside
+            }
         }
     });
+
+    // Special handling for the #favorites-section, which is a <section> not <details>
+    const favoritesSection = document.getElementById('favorites-section');
+    if (favoritesSection) {
+        let favoritesSectionHasMatches = false;
+        const favoritesListItems = favoritesSection.querySelectorAll('li');
+        favoritesListItems.forEach(li => {
+            const aTag = li.querySelector('a');
+            if (aTag) {
+                const text = aTag.textContent.toLowerCase();
+                if (text.includes(filter)) {
+                    li.style.display = "";
+                    favoritesSectionHasMatches = true;
+                } else {
+                    li.style.display = "none";
+                }
+            } else {
+                const text = li.textContent.toLowerCase();
+                if (text.includes(filter)) {
+                    li.style.display = "";
+                    favoritesSectionHasMatches = true;
+                } else {
+                    li.style.display = "none";
+                }
+            }
+        });
+
+        if (filter.length > 0 && !favoritesSectionHasMatches) {
+            favoritesSection.style.display = "none";
+        } else {
+            favoritesSection.style.display = "";
+        }
+    }
 });
 
 // Dark mode toggle
