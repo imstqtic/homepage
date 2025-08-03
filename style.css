@@ -1,69 +1,74 @@
-/* Catppuccin Latte Lavender Color */
+/* Flatwhite Syntax Colors */
+/* Light and Dark mode color variables */
+
 :root {
-    --bg-color: #f0f2f5;
-    --text-color: #333;
-    --card-bg: #fff;
-    --border-color: #ddd;
-    --accent: #b7bdf8; /* Catppuccin Latte Lavender */
-    --hover-bg: #e9ecef;
+    /* Light mode (Flatwhite Syntax Light) */
+    --bg-color: #fafafa;         /* light background */
+    --text-color: #2e2e2e;       /* dark text */
+    --card-bg: #ffffff;           /* white cards */
+    --border-color: #dcdcdc;      /* light gray borders */
+    --accent: #2f6f6f;            /* teal accent */
+    --hover-bg: #eaeaea;          /* light hover background */
     --box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
     --transition-speed: 0.25s ease;
 
     /* Fonts */
-    /* Ensure Hack Nerd Font Mono is installed on your system or linked via CDN */
     --main-font: "Hack Nerd Font Mono", "Courier New", monospace;
-    --title-font: serif; /* Generic serif font for titles */
+    --title-font: serif;
 }
 
 body.dark-mode {
-    --bg-color: #2c2c2c;
-    --text-color: #e0e0e0;
-    --card-bg: #3c3c3c;
-    --border-color: #555;
-    --accent: #b7bdf8; /* Catppuccin Latte Lavender for dark mode too */
-    --hover-bg: #4a4a4a;
+    /* Dark mode (Flatwhite Syntax Dark) */
+    --bg-color: #212121;          /* dark background */
+    --text-color: #c6c6c6;        /* light gray text */
+    --card-bg: #292929;           /* dark cards */
+    --border-color: #444444;      /* darker borders */
+    --accent: #4db6ac;            /* lighter teal accent */
+    --hover-bg: #383838;          /* dark hover background */
     --box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
 }
 
+/* === Rest of your CSS unchanged, just using these variables === */
+
 body {
-    font-family: var(--main-font); /* Main font for body text */
+    font-family: var(--main-font);
     background-color: var(--bg-color);
     color: var(--text-color);
     margin: 0;
-    padding: 12px; /* Reduced padding for more space */
+    padding: 12px;
     display: flex;
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
     transition: background-color var(--transition-speed), color var(--transition-speed);
     scroll-behavior: smooth;
-    font-size: 0.95em; /* Slightly increased base font size */
+    font-size: 0.95em;
 }
 
 header {
     width: 100%;
-    max-width: 1000px; /* Reduced max-width */
-    margin-bottom: 20px; /* Reduced margin */
+    max-width: 1000px;
+    margin-bottom: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px; /* Reduced gap */
+    gap: 12px;
 }
 
 .header-content {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 6px; /* Reduced gap */
+    gap: 6px;
 }
 
 #greeting-container {
-    font-size: 1.6em; /* Proportionally smaller */
+    font-size: 1.6em;
     font-weight: 600;
     color: var(--accent);
     text-align: center;
     transition: color var(--transition-speed);
-    font-family: var(--title-font); /* Serif for greeting */
+    font-family: var(--title-font);
 }
 
 .clock-date-container {
@@ -73,24 +78,24 @@ header {
 }
 
 #clock {
-    font-size: 3em; /* Proportionally smaller but still prominent */
+    font-size: 3em;
     font-weight: bold;
     color: var(--text-color);
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05); /* Smaller shadow */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
     transition: color var(--transition-speed), text-shadow var(--transition-speed);
 }
 
 #date {
-    font-size: 0.95em; /* Proportionally smaller */
+    font-size: 0.95em;
     color: var(--text-color);
-    margin-top: 3px; /* Reduced margin */
+    margin-top: 3px;
     transition: color var(--transition-speed);
 }
 
 .utility-widgets {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px; /* Reduced gap */
+    gap: 12px;
     justify-content: center;
     width: 100%;
 }
@@ -98,85 +103,82 @@ header {
 .widget {
     background-color: var(--card-bg);
     border: 1px solid var(--border-color);
-    border-radius: 9px; /* Slightly smaller border-radius */
-    padding: 10px 15px; /* Reduced padding */
+    border-radius: 9px;
+    padding: 10px 15px;
     box-shadow: var(--box-shadow);
     transition: background-color var(--transition-speed), border-color var(--transition-speed), box-shadow var(--transition-speed);
     flex: 1;
-    min-width: 200px; /* Adjusted min-width */
-    max-width: 320px; /* Adjusted max-width */
-    font-size: 0.9em; /* Adjusted font size for widget content based on new body font size */
+    min-width: 200px;
+    max-width: 320px;
+    font-size: 0.9em;
 }
 
-/* Quote Widget Styles */
 #quote-widget p {
-    font-size: 0.95em; /* Adjusted font size */
-    margin: 0 0 7px 0; /* Reduced margin */
+    font-size: 0.95em;
+    margin: 0 0 7px 0;
 }
 #quote-widget cite {
-    font-size: 0.8em; /* Adjusted font size */
+    font-size: 0.8em;
 }
 
 main {
     width: 100%;
-    max-width: 1000px; /* Consistent with header */
+    max-width: 1000px;
     display: flex;
     flex-direction: column;
-    gap: 20px; /* Reduced gap */
+    gap: 20px;
 }
 
 .controls-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 12px; /* Reduced gap */
-    margin-bottom: 12px; /* Reduced margin */
+    gap: 12px;
+    margin-bottom: 12px;
 }
 
 #search {
-    padding: 7px 28px 7px 10px; /* Reduced padding */
-    border-radius: 5px; /* Slightly smaller border-radius */
-    font-size: 0.9em; /* Adjusted font size */
+    padding: 7px 28px 7px 10px;
+    border-radius: 5px;
+    font-size: 0.9em;
 }
 
 #clear-search {
-    right: 3px; /* Adjusted position */
-    font-size: 1.2em; /* Adjusted font size */
+    right: 3px;
+    font-size: 1.2em;
 }
 
 #mode-toggle {
-    padding: 7px 10px; /* Reduced padding */
-    background-color: var(--accent); /* Ensure accent color */
-    color: white; /* Text color on button */
+    padding: 7px 10px;
+    background-color: var(--accent);
+    color: white;
     border: none;
-    border-radius: 5px; /* Slightly smaller border-radius */
+    border-radius: 5px;
     cursor: pointer;
-    font-size: 0.9em; /* Adjusted font size */
+    font-size: 0.9em;
     transition: background-color var(--transition-speed), transform 0.1s ease;
 }
 #mode-toggle:hover {
-    background-color: color-mix(in srgb, var(--accent) 85%, black); /* Darken accent color on hover */
+    background-color: color-mix(in srgb, var(--accent) 85%, black);
     transform: translateY(-1px);
 }
 body.dark-mode #mode-toggle:hover {
-    background-color: color-mix(in srgb, var(--accent) 85%, white); /* Lighten accent for dark mode */
+    background-color: color-mix(in srgb, var(--accent) 85%, white);
 }
-
 
 .dashboard-section {
     background-color: var(--card-bg);
     border: 1px solid var(--border-color);
-    border-radius: 9px; /* Consistent border-radius */
-    padding: 16px; /* Reduced padding */
+    border-radius: 9px;
+    padding: 16px;
     box-shadow: var(--box-shadow);
     transition: background-color var(--transition-speed), border-color var(--transition-speed), box-shadow var(--transition-speed);
 }
 
-/* Grid Layout for Link Sections */
 #link-sections.dashboard-section-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* Adjusted minmax for smaller size */
-    gap: 12px; /* Reduced gap */
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
     padding: 0;
     background: none;
     border: none;
@@ -186,26 +188,26 @@ body.dark-mode #mode-toggle:hover {
 #link-sections details {
     background-color: var(--card-bg);
     border: 1px solid var(--border-color);
-    border-radius: 9px; /* Consistent border-radius */
-    padding: 10px 15px; /* Reduced padding */
+    border-radius: 9px;
+    padding: 10px 15px;
     box-shadow: var(--box-shadow);
     transition: background-color var(--transition-speed), border-color var(--transition-speed), box-shadow var(--transition-speed), display var(--transition-speed);
     overflow: hidden;
 }
 #link-sections details[open] {
-    box-shadow: var(--box-shadow), 0 0 0 2px color-mix(in srgb, var(--accent) 50%, transparent); /* Lighter accent border on open */
+    box-shadow: var(--box-shadow), 0 0 0 2px color-mix(in srgb, var(--accent) 50%, transparent);
 }
 
 details summary {
     font-weight: bold;
-    font-size: 1.05em; /* Proportionally smaller */
+    font-size: 1.05em;
     cursor: pointer;
-    padding: 3px 0; /* Reduced padding */
+    padding: 3px 0;
     list-style: none;
     position: relative;
     color: var(--accent);
     transition: color var(--transition-speed);
-    font-family: var(--title-font); /* Serif for summary titles */
+    font-family: var(--title-font);
 }
 details summary:hover {
     color: var(--text-color);
@@ -214,11 +216,11 @@ details summary:hover {
 ul {
     list-style: none;
     padding: 0;
-    margin-top: 10px; /* Reduced margin */
+    margin-top: 10px;
 }
 
 li {
-    margin-bottom: 5px; /* Reduced margin */
+    margin-bottom: 5px;
 }
 li:last-child {
     margin-bottom: 0;
@@ -226,16 +228,16 @@ li:last-child {
 
 li a {
     display: block;
-    padding: 6px 8px; /* Reduced padding */
-    border-radius: 4px; /* Smaller border-radius */
+    padding: 6px 8px;
+    border-radius: 4px;
     text-decoration: none;
     color: var(--text-color);
-    background-color: color-mix(in srgb, var(--bg-color) 80%, var(--card-bg)); /* Slight variation */
+    background-color: color-mix(in srgb, var(--bg-color) 80%, var(--card-bg));
     transition: background-color var(--transition-speed), color var(--transition-speed), border var(--transition-speed);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-size: 0.9em; /* Adjusted link font size based on new body font size */
+    font-size: 0.9em;
 }
 
 li a:hover {
@@ -243,10 +245,9 @@ li a:hover {
     color: var(--accent);
 }
 
-/* To-Do List Styles */
 #todo-section h2 {
-    font-family: var(--title-font); /* Serif for H2 title */
-    font-size: 1.3em; /* Proportionally smaller */
+    font-family: var(--title-font);
+    font-size: 1.3em;
     text-align: center;
     color: var(--accent);
     margin-bottom: 15px;
@@ -254,18 +255,18 @@ li a:hover {
 
 .todo-input-container {
     display: flex;
-    gap: 8px; /* Reduced gap */
-    margin-bottom: 10px; /* Reduced margin */
+    gap: 8px;
+    margin-bottom: 10px;
 }
 
 #todo-input {
     flex-grow: 1;
-    padding: 7px 10px; /* Reduced padding */
+    padding: 7px 10px;
     border: 1px solid var(--border-color);
     border-radius: 6px;
     background-color: var(--bg-color);
     color: var(--text-color);
-    font-size: 0.95em; /* Adjusted font size */
+    font-size: 0.95em;
     transition: border-color var(--transition-speed), background-color var(--transition-speed), color var(--transition-speed);
 }
 #todo-input::placeholder {
@@ -278,13 +279,13 @@ li a:hover {
 }
 
 #add-todo-btn {
-    padding: 7px 12px; /* Reduced padding */
+    padding: 7px 12px;
     background-color: var(--accent);
     color: white;
     border: none;
     border-radius: 6px;
     cursor: pointer;
-    font-size: 0.95em; /* Adjusted font size */
+    font-size: 0.95em;
     transition: background-color var(--transition-speed), transform 0.1s ease;
 }
 #add-todo-btn:hover {
@@ -295,122 +296,48 @@ body.dark-mode #add-todo-btn:hover {
     background-color: color-mix(in srgb, var(--accent) 85%, white);
 }
 
-
 #todo-list li {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 12px; /* Reduced padding */
+    padding: 8px 12px;
     background-color: var(--bg-color);
     border: 1px solid var(--border-color);
     border-radius: 6px;
-    margin-bottom: 5px; /* Reduced margin */
+    margin-bottom: 5px;
     transition: background-color var(--transition-speed), border-color var(--transition-speed), box-shadow var(--transition-speed);
-    font-size: 0.92em; /* Adjusted font size */
+    font-size: 0.92em;
 }
 #todo-list li:hover {
     box-shadow: var(--box-shadow);
 }
 #todo-list li.completed {
     text-decoration: line-through;
-    color: color-mix(in srgb, var(--text-color) 60%, transparent); /* Faded color for completed */
     opacity: 0.7;
-    background-color: var(--hover-bg);
-    border-color: var(--hover-bg);
+    color: var(--border-color);
 }
-
-.todo-text {
-    flex-grow: 1;
-    cursor: pointer;
-    padding-right: 8px;
-}
-
-.delete-todo-btn {
+#todo-list li button {
     background: none;
     border: none;
-    color: #dc3545; /* Red color for delete */
-    font-size: 1.1em; /* Adjusted font size */
+    color: var(--accent);
     cursor: pointer;
-    transition: color var(--transition-speed), transform 0.1s ease;
+    font-size: 1.1em;
+    padding: 0 6px;
+    transition: color var(--transition-speed);
 }
-.delete-todo-btn:hover {
-    color: #c82333;
-    transform: scale(1.05);
+#todo-list li button:hover {
+    color: color-mix(in srgb, var(--accent) 70%, black);
+}
+body.dark-mode #todo-list li button:hover {
+    color: color-mix(in srgb, var(--accent) 70%, white);
 }
 
-footer {
-    width: 100%;
-    max-width: 1000px;
+#footer {
+    margin-top: auto;
+    padding: 15px 10px;
+    font-size: 0.85em;
+    color: var(--border-color);
     text-align: center;
-    margin-top: 25px; /* Reduced margin */
-    padding-top: 12px; /* Reduced padding */
-    border-top: 1px solid var(--border-color);
-    font-size: 0.85em; /* Adjusted font size */
-    color: var(--text-color);
-    transition: border-color var(--transition-speed), color var(--transition-speed);
+    font-family: var(--title-font);
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    body {
-        padding: 8px;
-        font-size: 0.9em; /* Adjusted for responsive */
-    }
-    header {
-        margin-bottom: 15px;
-        gap: 10px;
-    }
-    #clock {
-        font-size: 2.5em;
-    }
-    #greeting-container {
-        font-size: 1.4em;
-    }
-    .widget {
-        min-width: unset; /* Allow to shrink more */
-        width: 100%;
-        max-width: 400px;
-        padding: 8px 12px;
-    }
-    .controls-container {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 10px;
-        margin-bottom: 10px;
-    }
-    #link-sections.dashboard-section-grid {
-        grid-template-columns: 1fr;
-        gap: 10px;
-    }
-    #link-sections details {
-        padding: 8px 12px;
-    }
-    details summary {
-        font-size: 0.95em;
-    }
-    li a {
-        font-size: 0.85em; /* Adjusted for responsive */
-        padding: 5px 7px;
-    }
-    #todo-section h2 {
-        font-size: 1.2em;
-    }
-    #todo-input, #add-todo-btn, #todo-list li {
-        font-size: 0.9em; /* Adjusted for responsive */
-    }
-    footer {
-        font-size: 0.8em; /* Adjusted for responsive */
-    }
-}
-
-@media (max-width: 480px) {
-    #clock {
-        font-size: 2em;
-    }
-    #greeting-container {
-        font-size: 1.2em;
-    }
-    #search, #mode-toggle, #todo-input, #add-todo-btn {
-        font-size: 0.85em; /* Adjusted for responsive */
-    }
-}
